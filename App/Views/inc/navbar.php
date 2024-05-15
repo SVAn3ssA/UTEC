@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark menu fixed-top ">
+    <div class="container-fluid">
+        <img src="<?php echo APP_URL; ?>/app/views/images/UTEClogo.png" alt="Inicio" width="50" height="50" class="d-inline-block align-top" loading="lazy">
+        <a class="navbar-brand" href="<?php echo APP_URL; ?>inicio">INICIO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>usuarios/">Agregar Usuario</a></li>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listaUsuarios/">Lista de usuarios</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Historial Estudiantes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reportes</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php echo $_SESSION['nombres'] . " " . $_SESSION["apellidos"]; ?>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarUsuario/" . $_SESSION['id'] . "/"; ?>">Mi cuenta</a></li>
+                        <li><a class="dropdown-item" id="btn_cerrarSesion" href="<?php echo APP_URL; ?>cerrarSesion/">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

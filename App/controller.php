@@ -15,7 +15,7 @@ class controller
     {
 
         $modelo = get_class($this) . "Model";
-        $ruta = "Models/" . $modelo . ".php";
+        $ruta = "App/Models/" . $modelo . ".php";
         if (file_exists($ruta)) {
             require_once $ruta;
             $this->modelo = new $modelo();

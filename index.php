@@ -18,8 +18,8 @@ if (!empty($array[2])) {
         $parametro = trim($parametro, ",");
     }
 }
-require_once "Config/App/autoload.php";
-$dirControlador = "Controllers/" . $controlador . ".php";
+require_once "autoload.php";
+$dirControlador = "App/Controllers/" . $controlador . ".php";
 if (file_exists($dirControlador)) {
     require_once $dirControlador;
     $controlador = new $controlador();
