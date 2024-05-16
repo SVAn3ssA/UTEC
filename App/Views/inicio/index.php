@@ -4,23 +4,6 @@
 
 <head>
     <?php require_once "./App/Views/inc/head.php"; ?>
-    <style>
-        .fixed-container {
-            position: fixed;
-            top: 10px;
-            right: 500px;
-            width: 70%;
-            /* Cambiar el valor según sea necesario */
-            overflow-x: auto;
-            /* Agregar desplazamiento horizontal si el contenido excede el ancho */
-            transform: translateX(50%);
-        }
-
-        .fixed-container table {
-            width: 100%;
-            /* Establecer un ancho fijo para la tabla */
-        }
-    </style>
 </head>
 
 <body>
@@ -64,45 +47,42 @@
 
     <!-- Formulario para iniciar el préstamo de la máquina -->
     <div class="frmdatosprestamo">
-        <form id="prestamoForm">
-            <h3>Datos para préstamo de máquina</h3>
+        <form method="post" id="prestamoForm">
+            <h4>Préstamo de máquina</h4>
+            <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+
             <div class="row mb-3">
                 <div class="col-md-2">
-                    <label class="form-label">Laboratorio</label>
-                    <input type="text" class="form-control" id="noLaboratorio" name="noLaboratorio" required>
-                </div>
-                <div class="col-md-2">
                     <label class="form-label">No. PC</label>
-                    <input type="text" class="form-control" id="noPc" name="noPc" required>
+                    <input type="text" class="form-control" id="noPc" name="noPc">
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-2">
-                    <button class="btn btn-success" type="submit">Prestar</button>
+                    <button class="btn btn-success" type="submit" onclick="registrarTiempo(event)">Prestar</button>
                 </div>
             </div>
         </form>
     </div>
 
 
-    <div class="fixed-container">
-        <div class="container contenido d-flex justify-content-center">
-            <table id="registrosTable" class="display" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>ID Registro</th>
-                        <th>Carnet</th>
-                        <th>No. Laboratorio</th>
-                        <th>No. PC</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se insertarán los datos de los registros -->
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+    <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
+        <table id="registrosTable" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID Registro</th>
+                    <th>Carnet</th>
+                    <th>No. PC</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se insertarán los datos de los registros -->
+                <!-- Agrega más filas si es necesario -->
+            </tbody>
+        </table>
+    </div>
 
     <!-- Scripts -->
     <?php require_once "./app/views/inc/script.php"; ?>

@@ -1,3 +1,41 @@
+let tblRegistro
+document.addEventListener("DOMContentLoaded", function () {
+    tblRegistro = $('#registrosTable').DataTable({
+        responsive: true,
+        ajax: {
+            url: APP_URL + "inicio/listar",
+            dataSrc: ''
+        },
+        columns: [
+            { data: "id_registro", "searchable": false },
+            { data: "carnet", "searchable": true },
+            { data: "no_pc", "searchable": false },
+            { data: "observacion", "searchable": false },
+            { data: "acciones" }
+        ],
+        columnDefs : [{
+            "targets": [0, 1, 2, 3, 4], "orderable": false,
+        }],
+        language : {
+            "decimal": "",
+            "emptyTable": "No hay datos disponibles en la tabla",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "No se encontraron registros coincidentes",
+            "aria": {
+                "sortAscending": ": activar para ordenar la columna ascendente",
+                "sortDescending": ": activar para ordenar la columna descendente"
+            }
+        }
+    });
+})
 function frmLogin(e) {
     e.preventDefault();
     const email_usuario = document.getElementById("email_usuario");
@@ -90,7 +128,6 @@ function buscar(buscar) {
                     resultadosHTML += '<tr><td>' + value.carnet + '</td><td>' + value.nombres + '</td><td>' + value.apellidos + '</td><td>' + value.carrera + '</td><td>' + value.facultad + '</td><td>' + value.telefono + '</td><td>' + value.email + '</td></tr>';
                 });
                 document.getElementById('resultsBody').innerHTML = resultadosHTML;
-                document.getElementById('errorMessage').style.display = 'none';
             }
         })
         .catch(function (error) {
@@ -98,25 +135,50 @@ function buscar(buscar) {
         });
 }
 
+function registrarTiempo(e) {
+    e.preventDefault();
+    const noLaboratorio = document.getElementById("noLaboratorioSession").value;
+    const noPc = document.getElementById("noPc").value;
 
-function registrarPrestamo(e) {
-    const noLaboratorio = document.getElementById("noLaboratorio");
-    const noPc = document.getElementById("noPc");
-    if (!selectedCarnet) {
-        console.log('No se ha seleccionado un estudiante');
-    } else {
-        const url = APP_URL + "inicio/registrar";
-        const frm = document.getElementById("prestamoForm");
-        const http = new XMLHttpRequest();
-        http.open("POST", url, true);
-        http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        http.send("noLaboratorio=" + encodeURIComponent(noLaboratorio.value) + "&noPc=" + encodeURIComponent(noPc.value) + "&carnet=" + encodeURIComponent(selectedCarnet));
-        http.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            }
+    if (noLaboratorio === "") {
+        console.log('El número de laboratorio no está definido');
+        return;
+    }
+
+    if (selectedCarnet === undefined || selectedCarnet === null) {
+        console.log('No se ha seleccionado ningún carnet');
+        return;
+    }
+
+    const carnet = selectedCarnet; // Obtener el carnet seleccionado de la búsqueda
+    const url = APP_URL + "inicio/registrar";
+    const frm = document.getElementById("prestamoForm");
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    const formData = new FormData(frm);
+    formData.append('carnet', carnet); // Agregar el carnet al formulario
+    formData.append('noLaboratorio', noLaboratorio); // Agregar el número de laboratorio al formulario
+    formData.append('noPc', noPc); // Agregar el número de PC al formulario
+    http.send(formData);
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
         }
     }
 }
+
+function btnFinalizar(id) {
+    const observacion = document.getElementById("observacion_" + id).value; // Capturar el valor del campo de observación
+    const url = APP_URL + "inicio/modificar/" + id + "?observacion=" + encodeURIComponent(observacion); // Pasar el valor de la observación como parámetro en la URL
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+}
+
 
 
