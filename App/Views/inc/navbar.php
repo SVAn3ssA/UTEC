@@ -13,7 +13,7 @@
                         Usuarios
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>usuarios/">Agregar Usuario</a></li>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>usuario/">Agregar Usuario</a></li>
                         <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listaUsuarios/">Lista de usuarios</a>
                         </li>
                     </ul>

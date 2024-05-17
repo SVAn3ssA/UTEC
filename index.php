@@ -31,4 +31,4 @@ if (file_exists($dirControlador)) {
 } else {
     echo "No existe el controlador";
 }
-?>
+
