@@ -13,8 +13,8 @@
                         Usuarios
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>usuario/">Agregar Usuario</a></li>
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listaUsuarios/">Lista de usuarios</a>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a></li>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listaUsuarios">Lista de usuarios</a>
                         </li>
                     </ul>
                 </li>
@@ -32,7 +32,7 @@
                         <?php echo $_SESSION['nombres'] . " " . $_SESSION["apellidos"]; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarUsuario/" . $_SESSION['id'] . "/"; ?>">Mi cuenta</a></li>
+                        <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarusuario/" . $_SESSION['id'] . "/"; ?>">Mi cuenta</a></li>
                         <li><a class="dropdown-item" id="btn_cerrarSesion" href="<?php echo APP_URL; ?>cerrarSesion/">Cerrar Sesión</a></li>
                     </ul>
                 </li>
