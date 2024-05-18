@@ -5,6 +5,8 @@
 <!---BOOTSTRAP--->
 <script src="<?php echo APP_URL; ?>App/Views/js/bootstrap.bundle.min.js"></script>
 
+<!---SWEETALERT--->
+<script src="<?php echo APP_URL; ?>app/views/js/sweetalert2.all.min.js"></script>
 <!---FUNCIONES--->
 <script src="<?php echo APP_URL; ?>App/Views/js/funciones.js"></script>
 

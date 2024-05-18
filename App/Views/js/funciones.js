@@ -168,17 +168,19 @@ function registrarTiempo(e) {
 }
 
 function btnFinalizar(id) {
-    const observacion = document.getElementById("observacion_" + id).value; // Capturar el valor del campo de observación
-    const url = APP_URL + "inicio/modificar/" + id + "?observacion=" + encodeURIComponent(observacion); // Pasar el valor de la observación como parámetro en la URL
+    const observacion = document.getElementById("observacion_" + id).value;
+    const url = APP_URL + "inicio/modificar/" + id + "?observacion=" + encodeURIComponent(observacion);
     const http = new XMLHttpRequest();
     http.open("GET", url, true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
+            tblRegistro.ajax.reload(); // Recargar la tabla solo cuando la solicitud haya finalizado correctamente
         }
     }
 }
+
 
 
 

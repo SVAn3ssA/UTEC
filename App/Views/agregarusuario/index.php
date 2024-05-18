@@ -53,7 +53,7 @@
                         <div class="col">
                             <div>
                                 <label class="form-label">Privilegio:</label>
-                                <select class="form-select" id="privilegio_usuario" name="privilegio_usuario" required>
+                                <select class="form-select" id="privilegio_usuario" name="privilegio_usuario">
                                     <option value="" selected>Seleccione...</option>
                                     <?php foreach ($datos['privilegio'] as $row) { ?>
                                         <option value="<?php echo $row['id_privilegio']; ?>"><?php echo $row['privilegio']; ?></option>
@@ -67,7 +67,7 @@
                         <div class="col">
                             <div>
                                 <label class="form-label">Laboratorio:</label>
-                                <select class="form-select" id="laboratorio_usuario" name="laboratorio_usuario" required>
+                                <select class="form-select" id="laboratorio_usuario" name="laboratorio_usuario">
                                     <option value="" selected>Seleccione...</option>
                                     <?php
                                     foreach ($datos['laboratorio'] as $row) { ?>
@@ -81,7 +81,7 @@
                             <div>
                                 <label class="form-check-label">Estado:</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="estado_usuario" name="estado_usuario" checked>
+                                    <input class="form-check-input" type="radio" id="estado_usuario" name="estado_usuario" value="1" checked>
                                     <label class="form-check-label">
                                         Activo
                                     </label>

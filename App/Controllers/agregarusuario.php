@@ -18,7 +18,7 @@ class agregarusuario extends controller
         $this->vista->obtenerVista($this, "index", $datos);
     }
 
-    public function agregar()
+    public function agregarUsuario()
     {
         $nombres = $_POST['nombres_usuario'];
         $apellidos = $_POST['apellidos_usuario'];
@@ -28,14 +28,18 @@ class agregarusuario extends controller
         $estado = $_POST['estado_usuario'];
         $id_privilegio = $_POST['privilegio_usuario'];
         $no_laboratorio = $_POST['laboratorio_usuario'];
+
         $resultados = $this->modelo->insertarUsuario($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
-        if ($resultados) {
-            $mensaje = "OK"; // Cambiado a "OK" en lugar de "si"
+
+        if ($resultados === "OK") {
+            $mensaje = "SI";
+        } else if ($resultados === "existe") {
+            $mensaje = "El email ya existe";
         } else {
-            $mensaje = "Error al iniciar el préstamo"; // Mensaje de error claro
+            $mensaje = "Error al registrar: " . $resultados; // Mostrar mensaje de error claro
         }
 
-        echo json_encode($mensaje);
+        echo json_encode($mensaje, JSON_UNESCAPED_UNICODE);
         die();
     }
 }
