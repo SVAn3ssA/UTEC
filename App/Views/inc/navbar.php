@@ -33,7 +33,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarusuario/" . $_SESSION['id'] . "/"; ?>">Mi cuenta</a></li>
-                        <li><a class="dropdown-item" id="btn_cerrarSesion" href="<?php echo APP_URL; ?>cerrarSesion/">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item" id="btn_cerrarSesion" href="<?php echo APP_URL . "inicio/cerrarSesion"; ?>">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>

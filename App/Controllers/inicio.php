@@ -30,11 +30,19 @@ class inicio extends controller
                 $_SESSION['no_laboratorio'] = $data['no_laboratorio'];
                 $mensaje = "Ok";
             } else {
-                $mensaje = "Usuario o contrasenia incorrecta";
+                $mensaje = "Email o password incorrecto";
             }
         }
         echo json_encode($mensaje);
         die();
+    }
+
+    public function cerrarSesion()
+    {
+        session_destroy();
+        // Redirigir a la página de inicio u otra página según sea necesario
+        header("Location: " . APP_URL);
+        exit();
     }
 
     public function buscar($carnet)

@@ -27,9 +27,10 @@
                     <input type="text" class="form-control" id="email_usuario" name="email_usuario">
                 </div>
                 <div class="form-group">
-                    <label>Contraseña</label>
+                    <label>Password</label>
                     <input type="password" class="form-control" id="password_usuario" name="password_usuario">
                 </div>
+                <div class="alert alert-danger text-center d-none" id="alerta" role="alert"></div>
                 <p>
                     <button type="submit" class="btn-login" onclick="frmLogin(event);">Iniciar sesión</button>
                 </p>
