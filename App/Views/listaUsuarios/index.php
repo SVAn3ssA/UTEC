@@ -18,14 +18,15 @@
         <table id="lista" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Estado</th>
-                    <th>Privilegio</th>
-                    <th>No. Laboratorio</th>
+                    <th><center>ID</center></th>
+                    <th><center>Nombre</center></th>
+                    <th><center>Apellidos</center></th>
+                    <th><center>Email</center></th>
+                    <th><center>Telefono</center></th>
+                    <th><center>Estado</center></th>
+                    <th><center>Privilegio</center></th>
+                    <th><center>No. Laboratorio</center></th>
+                    <th><center>Acción</center></th>
                 </tr>
             </thead>
             <tbody>

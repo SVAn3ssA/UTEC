@@ -7,36 +7,36 @@ document.addEventListener("DOMContentLoaded", function () {
             dataSrc: ''
         },
         columns: [
-            { data: "id_usuario", "searchable": false },
-            { data: "nombres", "searchable": true },
-            { data: "apellidos", "searchable": true },
-            { data: "email", "searchable": true },
-            { data: "telefono", "searchable": true },
-            { data: "estado", "searchable": true },
-            { data: "privilegio", "searchable": true },
-            { data: "no_laboratorio", "searchable": false },
-            { data: "acciones", }
+            { data: "id_usuario", searchable: false, className: "text-center" },
+            { data: "nombres", searchable: true},
+            { data: "apellidos", searchable: true},
+            { data: "email", searchable: true},
+            { data: "telefono", searchable: true, className: "text-center" },
+            { data: "estado", searchable: true, className: "text-center" },
+            { data: "privilegio", searchable: true, className: "text-center" },
+            { data: "no_laboratorio", searchable: false, className: "text-center" },
+            { data: "acciones",  className: "text-center" }
         ],
-        columnDefs : [{
-            "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8],
-            "orderable": false,
+        columnDefs: [{
+            targets: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            orderable: false,
         }],
-        language : {
-            "decimal": "",
-            "emptyTable": "No hay datos disponibles en la tabla",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
-            "infoFiltered": "(filtrado de _MAX_ registros totales)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "No se encontraron registros coincidentes",
-            "aria": {
-                "sortAscending": ": activar para ordenar la columna ascendente",
-                "sortDescending": ": activar para ordenar la columna descendente"
+        language: {
+            decimal: "",
+            emptyTable: "No hay datos disponibles en la tabla",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            infoPostFix: "",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ registros",
+            loadingRecords: "Cargando...",
+            processing: "Procesando...",
+            search: "Buscar:",
+            zeroRecords: "No se encontraron registros coincidentes",
+            aria: {
+                sortAscending: ": activar para ordenar la columna ascendente",
+                sortDescending: ": activar para ordenar la columna descendente"
             }
         }
     });

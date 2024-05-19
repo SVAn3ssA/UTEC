@@ -1,4 +1,3 @@
-let tblRegistro
 document.addEventListener("DOMContentLoaded", function () {
     tblRegistro = $('#registrosTable').DataTable({
         responsive: true,
@@ -7,35 +6,36 @@ document.addEventListener("DOMContentLoaded", function () {
             dataSrc: ''
         },
         columns: [
-            { data: "id_registro", "searchable": false },
-            { data: "carnet", "searchable": true },
-            { data: "no_pc", "searchable": false },
-            { data: "observacion", "searchable": false },
-            { data: "acciones" }
+            { data: "id_registro", searchable: false, className: "text-center" },
+            { data: "carnet", searchable: true, className: "text-center" },
+            { data: "no_pc", searchable: false, className: "text-center" },
+            { data: "observacion", searchable: false, className: "text-center" },
+            { data: "acciones", className: "text-center" }
         ],
-        columnDefs : [{
-            "targets": [0, 1, 2, 3, 4], "orderable": false,
+        columnDefs: [{
+            targets: [0, 1, 2, 3, 4], orderable: false
         }],
-        language : {
-            "decimal": "",
-            "emptyTable": "No hay datos disponibles en la tabla",
-            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
-            "infoFiltered": "(filtrado de _MAX_ registros totales)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ registros",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "No se encontraron registros coincidentes",
-            "aria": {
-                "sortAscending": ": activar para ordenar la columna ascendente",
-                "sortDescending": ": activar para ordenar la columna descendente"
+        language: {
+            decimal: "",
+            emptyTable: "No hay datos disponibles en la tabla",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            infoPostFix: "",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ registros",
+            loadingRecords: "Cargando...",
+            processing: "Procesando...",
+            search: "Buscar:",
+            zeroRecords: "No se encontraron registros coincidentes",
+            aria: {
+                sortAscending: ": activar para ordenar la columna ascendente",
+                sortDescending: ": activar para ordenar la columna descendente"
             }
         }
     });
-})
+});
+
 function frmLogin(e) {
     e.preventDefault();
     const email_usuario = document.getElementById("email_usuario");
@@ -61,6 +61,9 @@ function frmLogin(e) {
                 const res = JSON.parse(this.responseText);
                 if (res == "Ok") {
                     window.location = APP_URL + "inicio";
+                }else{
+                    document.getElementById("alerta").classList.remove("d-none");
+                    document.getElementById("alerta").innerHTML = res;
                 }
             }
         }
