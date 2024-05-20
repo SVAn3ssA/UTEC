@@ -148,6 +148,7 @@ function buscar(buscar) {
 
 function registrarTiempo(e) {
     e.preventDefault();
+
     const noLaboratorio = document.getElementById("noLaboratorioSession").value;
     const noPc = document.getElementById("noPc").value;
 
@@ -174,6 +175,17 @@ function registrarTiempo(e) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
+
+            // Cambiar el color del cuadro correspondiente al número de PC
+            const pcElement = document.querySelector(`.computadora[data-pc="${noPc}"] .cuadro`);
+            if (pcElement) {
+                pcElement.style.backgroundColor = 'red';
+            } else {
+                alert('No se encontró la PC especificada');
+            }
+
+            // Recargar la tabla después de completar el préstamo
+            tblRegistro.ajax.reload();
         }
     }
 }
@@ -187,7 +199,21 @@ function btnFinalizar(id) {
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            tblRegistro.ajax.reload(); // Recargar la tabla solo cuando la solicitud haya finalizado correctamente
+            // Recargar la tabla solo cuando la solicitud haya finalizado correctamente
+            tblRegistro.ajax.reload(function () {
+                // Obtener el número de PC asociado al registro finalizado
+                const table = $('#registrosTable').DataTable();
+                const rowData = table.row("#row_" + id).data();
+                const pcNumber = rowData.no_pc;
+               
+                // Buscar y quitar el color del cuadro de la PC asociada
+                const pcElement = document.querySelector(`.computadora[data-pc="${pcNumber}"] .cuadro`);
+                if (pcElement) {
+                    pcElement.style.backgroundColor = ''; // Quitar el color de fondo
+                } else {
+                    alert('No se encontró la PC especificada');
+                }
+            });
         }
     }
 }
