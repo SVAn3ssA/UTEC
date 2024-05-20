@@ -61,7 +61,7 @@ function frmLogin(e) {
                 const res = JSON.parse(this.responseText);
                 if (res == "Ok") {
                     window.location = APP_URL + "inicio";
-                }else{
+                } else {
                     document.getElementById("alerta").classList.remove("d-none");
                     document.getElementById("alerta").innerHTML = res;
                 }
@@ -72,42 +72,50 @@ function frmLogin(e) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Evento de escucha para el formulario de búsqueda
-    document.getElementById('buscarForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        var searchTerm = document.getElementById('carnet').value;
-        if (searchTerm.length > 0) {
-            buscar(searchTerm);
+    // Función para agregar event listeners
+    function setupEventListeners() {
+        var buscarForm = document.getElementById('buscarForm');
+        if (buscarForm) {
+            buscarForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var searchTerm = document.getElementById('carnet').value;
+                if (searchTerm.length > 0) {
+                    buscar(searchTerm);
+                }
+            });
+        } else {
+            console.log('El formulario de búsqueda no fue encontrado en esta página');
         }
-    });
 
-    // Variable global para almacenar el carnet seleccionado
-    var selectedCarnet;
-    document.getElementById('resultsBody').addEventListener('click', function (e) {
-        if (e.target && e.target.nodeName === 'TD') {
-            // Obtener el carnet del estudiante seleccionado
-            var carnet = e.target.parentElement.cells[0].textContent;
-            // Guardar el carnet en la variable global
-            selectedCarnet = carnet;
+        var resultsBody = document.getElementById('resultsBody');
+        if (resultsBody) {
+            resultsBody.addEventListener('click', function (e) {
+                if (e.target && e.target.nodeName === 'TD') {
+                    var carnet = e.target.parentElement.cells[0].textContent;
+                    selectedCarnet = carnet;
+                }
+            });
+        } else {
+            console.log('El cuerpo de la tabla de resultados no fue encontrado en esta página');
         }
-    });
 
+        var cancelarBusqueda = document.getElementById('cancelarBusqueda');
+        if (cancelarBusqueda) {
+            cancelarBusqueda.addEventListener('click', function () {
+                document.getElementById('carnet').value = '';
+                document.getElementById('noLaboratorio').value = '';
+                document.getElementById('noPc').value = '';
+                document.getElementById('resultsBody').innerHTML = '';
+                document.getElementById('resultsTable').style.display = 'none';
+            });
+        } else {
+            console.log('El botón de cancelar búsqueda no fue encontrado en esta página');
+        }
+    }
 
-    // Evento de escucha para el botón de cancelar
-    document.getElementById('cancelarBusqueda').addEventListener('click', function () {
-        // Limpiar los campos de entrada
-        document.getElementById('carnet').value = '';
-        document.getElementById('noLaboratorio').value = '';
-        document.getElementById('noPc').value = '';
-        // Restablecer la tabla de resultados
-        document.getElementById('resultsBody').innerHTML = '';
-        // Ocultar la tabla y el mensaje de error
-        document.getElementById('resultsTable').style.display = 'none';
-
-    });
-
+    // Llamar a la función para agregar event listeners
+    setupEventListeners();
 });
-
 
 function buscar(buscar) {
     fetch('inicio/buscar/' + buscar)

@@ -20,42 +20,47 @@ class listaUsuariosModel extends conexion
             $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $registros;
         } catch (PDOException $e) {
-            // Manejar excepciones si ocurre un error de base de datos
             echo "Error de base de datos: " . $e->getMessage();
-            return []; // Devolver un array vacío en caso de error
         }
     }
 
     protected function ejecutarConsulta($consulta)
     {
-        $sql = $this->con->prepare($consulta);
-        $sql->execute();
-        return $sql;
+        try {
+            $sql = $this->con->prepare($consulta);
+            $sql->execute();
+            return $sql;
+        } catch (PDOException $e) {
+            echo "Error" . $e->getMessage();
+        }
     }
 
     public function listarPrivilegios()
     {
-        $consulta = "CALL SP_ListarPrivilegios";
-        return $this->ejecutarConsulta($consulta);
+        try {
+            $consulta = "CALL SP_ListarPrivilegios";
+            return $this->ejecutarConsulta($consulta);
+        } catch (PDOException $e) {
+            echo "Error de base de datos: " . $e->getMessage();
+        }
     }
 
     public function listarLaboratorios()
     {
-        $consulta = "CALL SP_ListarLaboratorios";
-        return $this->ejecutarConsulta($consulta);
+        try {
+            $consulta = "CALL SP_ListarLaboratorios";
+            return $this->ejecutarConsulta($consulta);
+        } catch (PDOException $e) {
+            echo "Error de base de datos: " . $e->getMessage();
+        }
     }
 
-    public function modificarUser($id)
+    public function seleccionarUsuario($id)
     {
         try {
-            $consulta = "SELECT u.id_usuario, u.nombres, u.apellidos, u.email, 
-                     CONVERT(AES_DECRYPT(u.password, 'Ut3c') USING utf8) AS password, 
-                     u.telefono, u.estado, u.id_privilegio, u.no_laboratorio
-                     FROM usuarios u
-                     LEFT JOIN privilegios p ON u.id_privilegio = p.id_privilegio
-                     WHERE u.id_usuario = :id";
+            $consulta = "CALL SP_SeleccionarUsuario(?)";
             $stmt = $this->con->prepare($consulta);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->bindParam(1, $id, PDO::PARAM_INT);
             $stmt->execute();
 
             $registros = [];
@@ -66,26 +71,35 @@ class listaUsuariosModel extends conexion
             return $registros;
         } catch (PDOException $e) {
             echo "Error de base de datos: " . $e->getMessage();
-            return [];
         }
     }
 
     public function modificarUsuario($id, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio)
     {
         try {
-            $consulta = "CALL SP_ModificarUsuario(:id_usuario_param, :nombres_param, :apellidos_param, :email_param, 
-                                                  :password_param, :telefono_param, :estado_param, :id_privilegio_param, :no_laboratorio_param)";
+            // Verificar si el correo electrónico ya existe para otro usuario
+            $verificar = "SELECT COUNT(*) FROM usuarios WHERE email = ? AND id_usuario != ?";
+            $stmt = $this->con->prepare($verificar);
+            $stmt->execute([$email, $id]);
+            $existe = $stmt->fetchColumn();
+
+            if ($existe > 0) {
+                return false; // Correo electrónico ya existe para otro usuario
+            }
+
+            // Proceder con la modificación del usuario
+            $consulta = "CALL SP_ModificarUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->con->prepare($consulta);
 
-            $stmt->bindParam(':id_usuario_param', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':nombres_param', $nombres, PDO::PARAM_STR);
-            $stmt->bindParam(':apellidos_param', $apellidos, PDO::PARAM_STR);
-            $stmt->bindParam(':email_param', $email, PDO::PARAM_STR);
-            $stmt->bindParam(':password_param', $password, PDO::PARAM_STR);
-            $stmt->bindParam(':telefono_param', $telefono, PDO::PARAM_STR);
-            $stmt->bindParam(':estado_param', $estado, PDO::PARAM_BOOL);
-            $stmt->bindParam(':id_privilegio_param', $id_privilegio, PDO::PARAM_INT);
-            $stmt->bindParam(':no_laboratorio_param', $no_laboratorio, PDO::PARAM_INT);
+            $stmt->bindParam(1, $id, PDO::PARAM_INT);
+            $stmt->bindParam(2, $nombres, PDO::PARAM_STR);
+            $stmt->bindParam(3, $apellidos, PDO::PARAM_STR);
+            $stmt->bindParam(4, $email, PDO::PARAM_STR);
+            $stmt->bindParam(5, $password, PDO::PARAM_STR);
+            $stmt->bindParam(6, $telefono, PDO::PARAM_STR);
+            $stmt->bindParam(7, $estado, PDO::PARAM_BOOL);
+            $stmt->bindParam(8, $id_privilegio, PDO::PARAM_INT);
+            $stmt->bindParam(9, $no_laboratorio, PDO::PARAM_INT);
 
             $stmt->execute();
             return true;

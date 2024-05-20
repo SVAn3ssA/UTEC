@@ -18,10 +18,8 @@ class listaUsuarios extends controller
     }
 
 
-    public function tabla()
+    public function listarUsuarios()
     {
-
-
         $registros = $this->modelo->listarUsuarios();
         for ($i = 0; $i < count($registros); $i++) {
             if ($registros[$i]['estado'] == 1) {
@@ -31,23 +29,28 @@ class listaUsuarios extends controller
             }
             $registros[$i]['acciones'] =
                 '<div>
-                    <button class="btn btn-primary" type="button" onclick="btnModificarUsuario(' . $registros[$i]['id_usuario'] . ');">Modificar</button>
+                    <button class="btn btn-primary" type="button" onclick="btnSeleccionarUsuario(' . $registros[$i]['id_usuario'] . ');">Modificar</button>
                 </div>';
         }
         echo json_encode($registros, JSON_UNESCAPED_UNICODE);
     }
 
-    public function modificarUsuario($id)
+    public function seleccioanrUsuarios($id)
     {
-        $registros = $this->modelo->modificarUser($id);
-        echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+        $usuario = $this->modelo->seleccionarUsuario($id);
+        echo json_encode($usuario, JSON_UNESCAPED_UNICODE);
     }
 
-    public function prueba()
+    public function modificarUsuarios()
     {
-        if ($_POST['id'] == "") {
-            $mensaje = "No se ha seleccionado ningun id";
+        if (
+            empty($_POST['id']) || empty($_POST['nombres_usuario']) || empty($_POST['apellidos_usuario']) ||
+            empty($_POST['email_usuario']) || empty($_POST['telefono_usuario']) || !isset($_POST['estado_usuario']) ||
+            empty($_POST['privilegio_usuario']) || empty($_POST['laboratorio_usuario'])
+        ) {
+            $mensaje = "Todos los campos son obligatorios";
         } else {
+            // Obtener los datos del formulario
             $id_usuario = $_POST['id'];
             $nombres = $_POST['nombres_usuario'];
             $apellidos = $_POST['apellidos_usuario'];
@@ -57,13 +60,16 @@ class listaUsuarios extends controller
             $estado = $_POST['estado_usuario'];
             $id_privilegio = $_POST['privilegio_usuario'];
             $no_laboratorio = $_POST['laboratorio_usuario'];
+
+            // Llamar al método para modificar el usuario
             $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
             if ($resultados) {
-                $mensaje = "MODIFICADO"; 
+                $mensaje = "MODIFICADO";
             } else {
-                $mensaje = "Error al modificar"; 
+                $mensaje = "El correo electrónico ya está en uso por otro usuario";
             }
         }
+
         echo json_encode($mensaje);
         die();
     }
