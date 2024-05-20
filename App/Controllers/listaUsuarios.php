@@ -1,5 +1,5 @@
 <?php
-class listaUsuarios extends controller
+class ListaUsuarios extends controller
 {
     public function __construct()
     {
@@ -43,6 +43,7 @@ class listaUsuarios extends controller
 
     public function modificarUsuarios()
     {
+        // Validar si todos los campos obligatorios están presentes
         if (
             empty($_POST['id']) || empty($_POST['nombres_usuario']) || empty($_POST['apellidos_usuario']) ||
             empty($_POST['email_usuario']) || empty($_POST['telefono_usuario']) || !isset($_POST['estado_usuario']) ||
@@ -61,12 +62,22 @@ class listaUsuarios extends controller
             $id_privilegio = $_POST['privilegio_usuario'];
             $no_laboratorio = $_POST['laboratorio_usuario'];
 
-            // Llamar al método para modificar el usuario
-            $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
-            if ($resultados) {
-                $mensaje = "MODIFICADO";
+            // Validar el formato del correo electrónico
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $mensaje = "El formato del correo electrónico es inválido";
             } else {
-                $mensaje = "El correo electrónico ya está en uso por otro usuario";
+                // Validar el formato del teléfono (solo números y 8 dígitos)
+                if (!preg_match('/^\d{8}$/', $telefono)) {
+                    $mensaje = "El formato del teléfono es incorrecto. Debe ser un número de 8 dígitos";
+                } else {
+                    // Llamar al método para modificar el usuario
+                    $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
+                    if ($resultados) {
+                        $mensaje = "MODIFICADO";
+                    } else {
+                        $mensaje = "El correo electrónico ya está en uso por otro usuario";
+                    }
+                }
             }
         }
 

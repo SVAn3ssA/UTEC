@@ -105,7 +105,7 @@ function btnSeleccionarUsuario(id) {
                 document.getElementById("estado_usuario2").checked = true;
             }
 
-            $("#prueba").modal("show");
+            $("#modalUsuarios").modal("show");
 
         }
     }
@@ -125,7 +125,7 @@ function modificarUsuario(e) {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             const mensaje = JSON.parse(this.responseText);
             if (mensaje === "MODIFICADO") {
-                $("#prueba").modal('hide');
+                $("#modalUsuarios").modal('hide');
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

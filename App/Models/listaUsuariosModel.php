@@ -1,6 +1,6 @@
 <?php
 
-class listaUsuariosModel extends conexion
+class ListaUsuariosModel extends conexion
 {
     private $pdo;
     private $con;

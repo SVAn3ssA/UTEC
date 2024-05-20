@@ -35,7 +35,7 @@
             </tbody>
         </table>
     </div>
-    <div id="prueba" class="modal" tabindex="-1">
+    <div id="modalUsuarios" class="modal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
