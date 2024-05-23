@@ -1,4 +1,7 @@
+let registrosFinalizados = [];
+
 document.addEventListener("DOMContentLoaded", function () {
+    // Cargar la tabla y los cuadros de las computadoras
     tblRegistro = $('#registrosTable').DataTable({
         responsive: true,
         ajax: {
@@ -32,9 +35,37 @@ document.addEventListener("DOMContentLoaded", function () {
                 sortAscending: ": activar para ordenar la columna ascendente",
                 sortDescending: ": activar para ordenar la columna descendente"
             }
+        },
+        initComplete: function () {
+            // Obtener los cuadros de las computadoras
+            const cuadros = document.querySelectorAll('.computadora .cuadro');
+
+            // Limpiar colores previos de los cuadros
+            cuadros.forEach(function (cuadro) {
+                cuadro.style.backgroundColor = '';
+            });
+
+            // Iterar sobre los registros cargados en la tabla
+            const registros = this.api().rows().data().toArray();
+            registros.forEach(function (registro) {
+                // Obtener el número de PC asignado
+                const noPc = registro.no_pc;
+
+                // Buscar el cuadro correspondiente a ese número de PC y ponerlo en rojo
+                const pcElement = document.querySelector(`.computadora[data-pc="${noPc}"] .cuadro`);
+                if (pcElement) {
+                    pcElement.style.backgroundColor = 'red';
+                }
+            });
         }
     });
 });
+
+
+
+
+
+
 
 function frmLogin(e) {
     e.preventDefault();
@@ -190,33 +221,37 @@ function registrarTiempo(e) {
     }
 }
 
-function btnFinalizar(id) {
-    const observacion = document.getElementById("observacion_" + id).value;
-    const url = APP_URL + "inicio/modificar/" + id + "?observacion=" + encodeURIComponent(observacion);
+
+
+function btnFinalizar(id_registro) {
+    const observacion = document.getElementById("observacion_" + id_registro).value;
+    const url = APP_URL + "inicio/modificar/" + id_registro + "?observacion=" + encodeURIComponent(observacion);
     const http = new XMLHttpRequest();
     http.open("GET", url, true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-            // Recargar la tabla solo cuando la solicitud haya finalizado correctamente
-            tblRegistro.ajax.reload(function () {
-                // Obtener el número de PC asociado al registro finalizado
-                const table = $('#registrosTable').DataTable();
-                const rowData = table.row("#row_" + id).data();
-                const pcNumber = rowData.no_pc;
-               
-                // Buscar y quitar el color del cuadro de la PC asociada
-                const pcElement = document.querySelector(`.computadora[data-pc="${pcNumber}"] .cuadro`);
-                if (pcElement) {
-                    pcElement.style.backgroundColor = ''; // Quitar el color de fondo
-                } else {
-                    alert('No se encontró la PC especificada');
-                }
-            });
+
+            // Redireccionar a la página actual después de finalizar el registro
+            window.location.reload();
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -142,7 +142,7 @@ html {
 .cuadro {
     width: 20px; /* Tamaño más pequeño */
     height: 20px; /* Tamaño más pequeño */
-    background-color: gray; /* Puedes cambiar el color según tus necesidades */
+    background-color:gray; /* Puedes cambiar el color según tus necesidades */
     margin-bottom: 5px; /* Ajusta el margen inferior para separar los cuadros */
 }
 
