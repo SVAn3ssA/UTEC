@@ -100,19 +100,19 @@
             <thead>
                 <tr>
                     <th>
-                        <center>ID Registro</center>
+                        ID Registro
                     </th>
                     <th>
-                        <center>Carnet</center>
+                        Carnet
                     </th>
                     <th>
-                        <center>No. PC</center>
+                        No. PC
                     </th>
                     <th>
-                        <center>Observaciones</center>
+                        Observaciones
                     </th>
                     <th>
-                        <center>Acción</center>
+                        Acción
                     </th>
                 </tr>
             </thead>
