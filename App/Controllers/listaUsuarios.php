@@ -43,45 +43,60 @@ class ListaUsuarios extends controller
 
     public function modificarUsuarios()
     {
-        // Validar si todos los campos obligatorios están presentes
+        // Validar campos del lado del servidor
+        $mensajeError = $this->validarCampos();
+        if (!empty($mensajeError)) {
+            echo json_encode($mensajeError);
+            die();
+        }
+
+        // Obtener datos del formulario
+        $id_usuario = $_POST['id'];
+        $nombres = $_POST['nombres_usuario'];
+        $apellidos = $_POST['apellidos_usuario'];
+        $email = $_POST['email_usuario'];
+        $password = $_POST['passwordInput'];
+        $telefono = $_POST['telefono_usuario'];
+        $estado = $_POST['estado_usuario'];
+        $id_privilegio = $_POST['privilegio_usuario'];
+        $no_laboratorio = $_POST['laboratorio_usuario'];
+
+        // Llamar al método para modificar el usuario
+        $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
+
+        // Enviar el mensaje de resultado al cliente
+        if ($resultados) {
+            $mensaje = "MODIFICADO";
+        } else {
+            $mensaje = "El correo electrónico ya está en uso por otro usuario";
+        }
+
+        echo json_encode($mensaje);
+        die();
+    }
+
+    private function validarCampos()
+    {
+        // Validar que todos los campos necesarios estén presentes y no estén vacíos
         if (
             empty($_POST['id']) || empty($_POST['nombres_usuario']) || empty($_POST['apellidos_usuario']) ||
             empty($_POST['email_usuario']) || empty($_POST['telefono_usuario']) || !isset($_POST['estado_usuario']) ||
             empty($_POST['privilegio_usuario']) || empty($_POST['laboratorio_usuario'])
         ) {
-            $mensaje = "Todos los campos son obligatorios";
-        } else {
-            // Obtener los datos del formulario
-            $id_usuario = $_POST['id'];
-            $nombres = $_POST['nombres_usuario'];
-            $apellidos = $_POST['apellidos_usuario'];
-            $email = $_POST['email_usuario'];
-            $password = $_POST['passwordInput'];
-            $telefono = $_POST['telefono_usuario'];
-            $estado = $_POST['estado_usuario'];
-            $id_privilegio = $_POST['privilegio_usuario'];
-            $no_laboratorio = $_POST['laboratorio_usuario'];
-
-            // Validar el formato del correo electrónico
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $mensaje = "El formato del correo electrónico es inválido";
-            } else {
-                // Validar el formato del teléfono (solo números y 8 dígitos)
-                if (!preg_match('/^\d{8}$/', $telefono)) {
-                    $mensaje = "El formato del teléfono es incorrecto. Debe ser un número de 8 dígitos";
-                } else {
-                    // Llamar al método para modificar el usuario
-                    $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
-                    if ($resultados) {
-                        $mensaje = "MODIFICADO";
-                    } else {
-                        $mensaje = "El correo electrónico ya está en uso por otro usuario";
-                    }
-                }
-            }
+            return "Todos los campos son obligatorios";
         }
 
-        echo json_encode($mensaje);
-        die();
+        // Validar el formato del correo electrónico
+        if (!filter_var($_POST['email_usuario'], FILTER_VALIDATE_EMAIL)) {
+            return "El formato del correo electrónico es inválido";
+        }
+
+        // Validar el formato del teléfono (solo números y 8 dígitos)
+        if (!preg_match('/^\d{8}$/', $_POST['telefono_usuario'])) {
+            return "El formato del teléfono es incorrecto. Debe ser un número de 8 dígitos";
+        }
+
+        // Si no hay errores, devolver una cadena vacía
+        return "";
     }
 }

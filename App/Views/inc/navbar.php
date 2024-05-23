@@ -13,14 +13,14 @@
                         Usuarios
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>AgregarUsuario">Agregar Usuario</a></li>
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>ListaUsuarios">Lista de usuarios</a>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a></li>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a>
                         </li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Historial Estudiantes</a>
+                    <a class="nav-link" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Reportes</a>
@@ -32,7 +32,7 @@
                         <?php echo $_SESSION['nombres'] . " " . $_SESSION["apellidos"]; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarusuario/" . $_SESSION['id'] . "/"; ?>">Mi cuenta</a></li>
+                        <li><a class="dropdown-item" id="" href="<?php echo APP_URL . "modificarusuario/" . $_SESSION['id'] . "/"; ?>"></a></li>
                         <li><a class="dropdown-item" id="btn_cerrarSesion" href="<?php echo APP_URL . "inicio/cerrarSesion"; ?>">Cerrar Sesión</a></li>
                     </ul>
                 </li>

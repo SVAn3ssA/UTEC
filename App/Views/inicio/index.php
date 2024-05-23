@@ -80,11 +80,21 @@ session_start();
         <table id="registrosTable" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
-                    <th><center>ID Registro</center></th>
-                    <th><center>Carnet</center></th>
-                    <th><center>No. PC</center></th>
-                    <th><center>Observaciones</center></th>
-                    <th><center>Acción</center></th>
+                    <th>
+                        ID Registro
+                    </th>
+                    <th>
+                        Carnet
+                    </th>
+                    <th>
+                        No. PC
+                    </th>
+                    <th>
+                        Observaciones
+                    </th>
+                    <th>
+                        Acción
+                    </th>
                 </tr>
             </thead>
             <tbody>
