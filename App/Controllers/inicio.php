@@ -14,28 +14,42 @@ class inicio extends controller
     }
 
     public function validar()
-    {
+{
+    if (empty($_POST['email_usuario']) || empty($_POST['password_usuario'])) {
+        $mensaje = "Los campos están vacíos";
+    } else {
+        $email = $_POST['email_usuario'];
+        $password = $_POST['password_usuario'];
+        $data = $this->modelo->getUsuario($email, $password);
 
-        if (empty($_POST['email_usuario']) || empty($_POST['password_usuario'])) {
-            $mensaje = "Los campos estan vacios";
-        } else {
-            $email = $_POST['email_usuario'];
-            $password = $_POST['password_usuario'];
-            $data = $this->modelo->getUsuario($email, $password);
-            if ($data) {
-                $_SESSION['id'] = $data['id_usuario'];
-                $_SESSION['nombres'] = $data['nombres'];
-                $_SESSION['apellidos'] = $data['apellidos'];
-                $_SESSION['email'] = $data['email'];
-                $_SESSION['no_laboratorio'] = $data['no_laboratorio'];
+        if ($data) {
+            $_SESSION['id'] = $data['id_usuario'];
+            $_SESSION['nombres'] = $data['nombres'];
+            $_SESSION['apellidos'] = $data['apellidos'];
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['no_laboratorio'] = $data['no_laboratorio'];
+
+            // Depuración: Verificar datos del usuario
+            error_log("Usuario autenticado: " . json_encode($data));
+
+            // Obtener el número de PCs del laboratorio
+            $num_pcs = $this->modelo->getNumeroPCs($data['no_laboratorio']);
+            if ($num_pcs !== false && isset($num_pcs['no_pc'])) {
+                $_SESSION['num_pcs'] = $num_pcs['no_pc'];
+                error_log("Número de PCs obtenido: " . $_SESSION['num_pcs']);
                 $mensaje = "Ok";
             } else {
-                $mensaje = "Email o password incorrecto";
+                error_log("Error al obtener el número de PCs.");
+                $mensaje = "Error al obtener el número de PCs del laboratorio.";
             }
+        } else {
+            $mensaje = "Email o password incorrecto";
         }
-        echo json_encode($mensaje);
-        die();
     }
+    echo json_encode($mensaje);
+    die();
+}
+
 
     public function cerrarSesion()
     {

@@ -31,6 +31,21 @@ class inicioModel extends conexion
         return $data;
     }
 
+    public function getNumeroPCs($laboratorio_id)
+    {
+        try {
+            $sql = "SELECT no_pc FROM laboratorios WHERE no_laboratorio = :id";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bindParam(':id', $laboratorio_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function buscarCarnet(string $carnet)
     {
         try {

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +47,10 @@
     </div>
 
     <div class="computadoras" id="computadoras">
-        <?php for ($i = 1; $i <= 30; $i++) : ?>
+        <?php
+        $num_pcs = isset($_SESSION['num_pcs']) ? $_SESSION['num_pcs'] : 0;
+        for ($i = 1; $i <= $num_pcs; $i++) :
+        ?>
             <div class="computadora" data-pc="<?= $i ?>">
                 <div class="etiqueta">PC <?= $i ?></div>
                 <div class="cuadro"></div>
