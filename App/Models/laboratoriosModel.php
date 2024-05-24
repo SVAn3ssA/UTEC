@@ -73,23 +73,24 @@ class laboratoriosModel extends conexion
         }
     }
 
-    public function modificarLab($noLaboratorio, $noPc, $descripcion, $programas, $estado)
-    {
+    public function modificarLab($noLaboratorio, $noPc, $descripcion, $programas, $estado) {
         $query = "CALL SP_ModificarLaboratorio(?,?,?,?,?)";
-
+    
         try {
             $stmt = $this->con->prepare($query);
-
+    
             // Vincular parámetros
             $stmt->bindParam(1, $noLaboratorio, PDO::PARAM_INT);
             $stmt->bindParam(2, $noPc, PDO::PARAM_INT);
             $stmt->bindParam(3, $descripcion, PDO::PARAM_STR);
             $stmt->bindParam(4, $programas, PDO::PARAM_STR);
-            $stmt->bindParam(5, $estado, PDO::PARAM_STR);
-
+            $stmt->bindParam(5, $estado, PDO::PARAM_INT);
+    
+            error_log("Ejecutando consulta con estado: " . $estado); // Añade este log para ver el valor del estado
+    
             // Ejecutar la consulta
             $stmt->execute();
-
+    
             return true;  // Éxito
         } catch (PDOException $e) {
             // Manejo de errores

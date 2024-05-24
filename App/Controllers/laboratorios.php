@@ -56,19 +56,19 @@ class laboratorios extends controller
         die();
     }
 
-    public function modificarLaboratorio()
-    {
+    public function modificarLaboratorio() {
         $noLaboratorio = $_POST['noLaboratorio'];
         $noPc = $_POST['noPc'];
         $descripcion = $_POST['descripcion'];
         $programas = $_POST['programas'];
         $estado = $_POST['estado'];
-
+    
+        error_log("Valor de estado recibido: " . $estado); // Añade este log para ver el valor recibido
+    
         $mensajeError = $this->validarCampos($noLaboratorio, $noPc);
         if (!empty($mensajeError)) {
             $mensaje = $mensajeError;
         } else {
-
             $resultados = $this->modelo->modificarLab($noLaboratorio, $noPc, $descripcion, $programas, $estado);
             if ($resultados) {
                 $mensaje = "MODIFICADO";

@@ -168,6 +168,6 @@ html {
     margin-left: 20px
 }
 
-#estado2 {
+.estado-inactivo-container {
     display: none;
 }

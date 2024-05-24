@@ -45,20 +45,19 @@
                         <div class="form-group mb-4">
                             <label for="estado">Estado:</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="estado1" name="estado" value="1" checked>
-                                <label class="form-check-label">
+                                <input class="form-check-input" type="radio" id="estado1" name="estado" value="1"
+                                    checked>
+                                <label class="form-check-label" for="estado1">
                                     Activo
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check estado-inactivo-container" style="display: none;">
                                 <input class="form-check-input" type="radio" id="estado2" name="estado" value="0">
-                                <label class="form-check-label">
+                                <label class="form-check-label" for="estado2">
                                     Inactivo
                                 </label>
                             </div>
                         </div>
-
-
                 </div>
                 <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)"
                     id="btnAccionGuardar">Guardar</button>

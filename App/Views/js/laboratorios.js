@@ -40,16 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function frmLab() {
-    $("#modalLaboratorio").modal('show');
-    document.getElementById("titulo").innerHTML = "Agregar";
-    document.getElementById("btnAccionGuardar").style.display = "block"; // Asegura que el botón de "Guardar" esté visible
-    document.getElementById("btnAccionModificar").style.display = "none"; // Oculta el botón de "Modificar"
-    document.querySelector('.estado-inactivo-container').style.display = 'none'; // Oculta el contenedor del estado inactivo
-    document.getElementById("estado1").checked = true; // Marca el estado activo por defecto
-    document.getElementById("estado2").checked = false; // Desmarca el estado inactivo
-
-}
 
 
 function registrarLaboratorio(e) {
@@ -96,12 +86,19 @@ function modifirLaboratorio(e) {
     // Obtener el valor del estado seleccionado
     const estado = document.querySelector('input[name="estado"]:checked').value;
 
-    // Establecer el valor del estado en el formulario
-    frm.elements["estado"].value = estado;
+    // Crear un objeto FormData y agregar los valores del formulario manualmente
+    const formData = new FormData();
+    formData.append('noLaboratorio', frm.elements['noLaboratorio'].value);
+    formData.append('noPc', frm.elements['noPc'].value);
+    formData.append('descripcion', frm.elements['descripcion'].value);
+    formData.append('programas', frm.elements['programas'].value);
+    formData.append('estado', estado);
+
+    console.log("Estado enviado:", estado);  // Añade este log para ver el valor del estado
 
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
-    http.send(new FormData(frm));
+    http.send(formData);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const response = JSON.parse(this.responseText);
@@ -116,8 +113,7 @@ function modifirLaboratorio(e) {
                 frm.reset();
                 $("#modalLaboratorio").modal('hide');
                 tblLaboratorios.ajax.reload();
-            }
-            else {
+            } else {
                 Swal.fire({
                     position: "top-end",
                     icon: "error",
@@ -130,9 +126,21 @@ function modifirLaboratorio(e) {
     }
 }
 
+function frmLab() {
+    $("#modalLaboratorio").modal('show');
+    document.getElementById("titulo").innerHTML = "Agregar";
+    document.getElementById("btnAccionGuardar").style.display = "block"; // Asegura que el botón de "Guardar" esté visible
+    document.getElementById("btnAccionModificar").style.display = "none"; // Oculta el botón de "Modificar"
+    document.querySelector('.estado-inactivo-container').style.display = 'none'; // Oculta el contenedor del estado inactivo
+    document.getElementById("estado1").checked = true; // Marca el estado activo por defecto
+    document.getElementById("estado2").checked = false; // Desmarca el estado inactivo
+    
+}
+
 
 function btnSeleccionarLab(id) {
-    document.querySelector('#estado2').style.display = 'none';
+    const contenedorEstadoInactivo = document.querySelector('.estado-inactivo-container');
+    contenedorEstadoInactivo.style.display = 'block'; // Asegura que el contenedor del estado inactivo esté visible
     document.getElementById("btnAccionGuardar").style.display = "none"; // Oculta el botón de Guardar
     document.getElementById("titulo").innerHTML = "Modificar";
     document.getElementById("btnAccionModificar").style.display = "block"; // Muestra el botón de Modificar
@@ -149,14 +157,11 @@ function btnSeleccionarLab(id) {
             document.getElementById("noPc").value = laboratorios.no_pc;
             document.getElementById("descripcion").value = laboratorios.descripcion;
             document.getElementById("programas").value = laboratorios.programas;
-            if (laboratorios.estado === 1) {
+            if (laboratorios.estado == 1) {
                 document.getElementById("estado1").checked = true;
-                document.getElementById("estado2").style.display = "block"; // Muestra el botón de radio para el estado "Inactivo"
             } else {
                 document.getElementById("estado2").checked = true;
             }
-
-            
             $("#modalLaboratorio").modal('show');
         }
     }
