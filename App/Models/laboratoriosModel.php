@@ -29,9 +29,9 @@ class laboratoriosModel extends conexion
         return $this->ejecutarConsulta($consulta);
     }
 
-    public function insertarLaboratorio($noLaboratorio, $noPc, $descripcion, $programas)
+    public function insertarLaboratorio($noLaboratorio, $noPc, $descripcion, $programas, $estado)
     {
-        $query = "CALL SP_InsertarLaboratorio(?,?,?,?)";
+        $query = "CALL SP_InsertarLaboratorio(?,?,?,?,?)";
 
         try {
             $stmt = $this->con->prepare($query);
@@ -41,12 +41,13 @@ class laboratoriosModel extends conexion
             $stmt->bindParam(2, $noPc, PDO::PARAM_STR);
             $stmt->bindParam(3, $descripcion, PDO::PARAM_STR);
             $stmt->bindParam(4, $programas, PDO::PARAM_STR);
+            $stmt->bindParam(5, $estado, PDO::PARAM_STR);
 
             // Ejecutar la consulta
             $stmt->execute();
 
             return true;  // Éxito
-        } catch (PDOException $e) {
+        } catch (PDOException  $e) {
             // Manejo de errores
             error_log("Error al insertar laboratorio: " . $e->getMessage());
             return false;  // Fallo
@@ -72,22 +73,24 @@ class laboratoriosModel extends conexion
         }
     }
 
-    public function modificarLab($noLaboratorio, $noPc, $descripcion, $programas)
-    {
-        $query = "CALL SP_ModificarLaboratorio(?,?,?,?)";
-
+    public function modificarLab($noLaboratorio, $noPc, $descripcion, $programas, $estado) {
+        $query = "CALL SP_ModificarLaboratorio(?,?,?,?,?)";
+    
         try {
             $stmt = $this->con->prepare($query);
-
+    
             // Vincular parámetros
             $stmt->bindParam(1, $noLaboratorio, PDO::PARAM_INT);
             $stmt->bindParam(2, $noPc, PDO::PARAM_INT);
             $stmt->bindParam(3, $descripcion, PDO::PARAM_STR);
             $stmt->bindParam(4, $programas, PDO::PARAM_STR);
-
+            $stmt->bindParam(5, $estado, PDO::PARAM_INT);
+    
+            error_log("Ejecutando consulta con estado: " . $estado); // Añade este log para ver el valor del estado
+    
             // Ejecutar la consulta
             $stmt->execute();
-
+    
             return true;  // Éxito
         } catch (PDOException $e) {
             // Manejo de errores

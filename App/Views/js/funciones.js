@@ -177,7 +177,7 @@ function registrarTiempo(e) {
     e.preventDefault();
 
     const noLaboratorio = document.getElementById("noLaboratorioSession").value;
-    const noPc = document.getElementById("noPc").value;
+    const noPc = parseInt(document.getElementById("noPc").value, 10);
 
     // Verificar si se ha seleccionado un carnet
     if (typeof selectedCarnet === 'undefined' || selectedCarnet === null) {
@@ -197,11 +197,11 @@ function registrarTiempo(e) {
     http.send(formData);
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            const response = JSON.parse(this.responseText);
+            console.log(response);
 
-            // Cambiar el color del cuadro correspondiente al número de PC
-            const pcElement = document.querySelector(`.computadora[data-pc="${noPc}"] .cuadro`);
-            if (pcElement) {
+            if (response === "OK") {
+                // Cambiar el color del cuadro correspondiente al número de PC
                 pcElement.style.backgroundColor = 'red';
             } 
 

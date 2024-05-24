@@ -18,6 +18,11 @@ class laboratorios extends controller
     {
         $registros = $this->modelo->listarLaboratorio();
         for ($i = 0; $i < count($registros); $i++) {
+            if ($registros[$i]['estado'] == 1) {
+                $registros[$i]['estado'] = '<span style="color: green;">Activo</span>';
+            } else {
+                $registros[$i]['estado'] = '<span style="color: red;">Inactivo</span>';
+            }
             $registros[$i]['acciones'] =
                 '<div>
                     <button class="btn btn-primary" type="button" onclick="btnSeleccionarLab(' . $registros[$i]['no_laboratorio'] . ');">Modificar</button>
@@ -32,17 +37,18 @@ class laboratorios extends controller
         $noPc = $_POST['noPc'];
         $descripcion = $_POST['descripcion'];
         $programas = $_POST['programas'];
+        $estado = $_POST['estado'];
 
         // Validaciones del lado del servidor
         $mensajeError = $this->validarCampos($noLaboratorio, $noPc);
         if (!empty($mensajeError)) {
             $mensaje = $mensajeError;
         } else {
-            $resultados = $this->modelo->insertarLaboratorio($noLaboratorio, $noPc, $descripcion, $programas);
+            $resultados = $this->modelo->insertarLaboratorio($noLaboratorio, $noPc, $descripcion, $programas, $estado);
             if ($resultados) {
                 $mensaje = "SI";
             } else {
-                $mensaje = "Error al registrar";
+                $mensaje = "Error, este laboratorio ya existe";
             }
         }
 
@@ -50,19 +56,20 @@ class laboratorios extends controller
         die();
     }
 
-    public function modificarLaboratorio()
-    {
+    public function modificarLaboratorio() {
         $noLaboratorio = $_POST['noLaboratorio'];
         $noPc = $_POST['noPc'];
         $descripcion = $_POST['descripcion'];
         $programas = $_POST['programas'];
-
+        $estado = $_POST['estado'];
+    
+        error_log("Valor de estado recibido: " . $estado); // Añade este log para ver el valor recibido
+    
         $mensajeError = $this->validarCampos($noLaboratorio, $noPc);
         if (!empty($mensajeError)) {
             $mensaje = $mensajeError;
         } else {
-
-            $resultados = $this->modelo->modificarLab($noLaboratorio, $noPc, $descripcion, $programas);
+            $resultados = $this->modelo->modificarLab($noLaboratorio, $noPc, $descripcion, $programas, $estado);
             if ($resultados) {
                 $mensaje = "MODIFICADO";
             } else {

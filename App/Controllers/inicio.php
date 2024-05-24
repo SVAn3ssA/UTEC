@@ -15,20 +15,34 @@ class inicio extends controller
 
     public function validar()
     {
-
         if (empty($_POST['email_usuario']) || empty($_POST['password_usuario'])) {
-            $mensaje = "Los campos estan vacios";
+            $mensaje = "Los campos están vacíos";
         } else {
             $email = $_POST['email_usuario'];
             $password = $_POST['password_usuario'];
             $data = $this->modelo->getUsuario($email, $password);
+
             if ($data) {
                 $_SESSION['id'] = $data['id_usuario'];
                 $_SESSION['nombres'] = $data['nombres'];
                 $_SESSION['apellidos'] = $data['apellidos'];
                 $_SESSION['email'] = $data['email'];
                 $_SESSION['no_laboratorio'] = $data['no_laboratorio'];
-                $mensaje = "Ok";
+                $_SESSION['privilegio'] = $data['id_privilegio'];
+
+                // Depuración: Verificar datos del usuario
+                error_log("Usuario autenticado: " . json_encode($data));
+
+                // Obtener el número de PCs del laboratorio
+                $num_pcs = $this->modelo->getNumeroPCs($data['no_laboratorio']);
+                if ($num_pcs !== false && isset($num_pcs['no_pc'])) {
+                    $_SESSION['num_pcs'] = $num_pcs['no_pc'];
+                    error_log("Número de PCs obtenido: " . $_SESSION['num_pcs']);
+                    $mensaje = "Ok";
+                } else {
+                    error_log("Error al obtener el número de PCs.");
+                    $mensaje = "Error al obtener el número de PCs del laboratorio.";
+                }
             } else {
                 $mensaje = "Email o password incorrecto";
             }
@@ -36,6 +50,7 @@ class inicio extends controller
         echo json_encode($mensaje);
         die();
     }
+
 
     public function cerrarSesion()
     {
@@ -52,20 +67,29 @@ class inicio extends controller
     }
 
     public function registrar()
-    {
-        $nolaboratorio = $_POST['noLaboratorio'];
-        $nopc = $_POST['noPc'];
-        $carnet = $_POST['carnet'];
-        $resultados = $this->modelo->iniciarPrestamo($nolaboratorio, $nopc, $carnet);
-        if ($resultados) {
-            $mensaje = "OK"; // Cambiado a "OK" en lugar de "si"
-        } else {
-            $mensaje = "Error al iniciar el préstamo"; // Mensaje de error claro
-        }
+{
+    $nolaboratorio = $_POST['noLaboratorio'];
+    $nopc = $_POST['noPc'];
+    $carnet = $_POST['carnet'];
 
+    // Validar que el número de PC sea mayor que 0
+    if ($nopc <= 0) {
+        $mensaje = "Error: El número de PC debe ser mayor que 0";
         echo json_encode($mensaje);
         die();
     }
+
+    $resultados = $this->modelo->iniciarPrestamo($nolaboratorio, $nopc, $carnet);
+    if ($resultados) {
+        $mensaje = "OK";
+    } else {
+        $mensaje = "Error al iniciar el préstamo";
+    }
+
+    echo json_encode($mensaje);
+    die();
+}
+
 
 
     public function listar()

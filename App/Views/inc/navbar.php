@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark menu fixed-top ">
+<nav class="navbar navbar-expand-lg navbar-dark menu fixed-top">
     <div class="container-fluid">
         <img src="<?php echo APP_URL; ?>/app/views/images/UTEClogo.png" alt="Inicio" width="50" height="50" class="d-inline-block align-top" loading="lazy">
         <a class="navbar-brand" href="<?php echo APP_URL; ?>inicio">INICIO</a>
@@ -7,21 +7,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-
+                <?php if ($_SESSION['privilegio'] == 1): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Usuarios
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a></li>
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a>
-                        </li>
+                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a></li>
                     </ul>
                 </li>
-
+                
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
                 </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Reportes</a>
                 </li>
