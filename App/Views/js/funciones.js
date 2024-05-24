@@ -102,6 +102,7 @@ function frmLogin(e) {
 }
 
 
+
 function limpiarBusqueda() {
     // Limpiar el campo de búsqueda de carnet y el número de PC
     document.getElementById('carnet').value = '';
@@ -143,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEventListeners();
 });
 
-
 function buscar(buscar) {
     fetch('inicio/buscar/' + buscar)
         .then(function (response) {
@@ -179,10 +179,27 @@ function registrarTiempo(e) {
     const noLaboratorio = document.getElementById("noLaboratorioSession").value;
     const noPc = parseInt(document.getElementById("noPc").value, 10);
 
-    // Verificar si se ha seleccionado un carnet
-    if (typeof selectedCarnet === 'undefined' || selectedCarnet === null) {
-        alert("Debe realizar una búsqueda y seleccionar un carnet antes de prestar una máquina.");
+    if (noLaboratorio === "") {
+        console.log('El número de laboratorio no está definido');
         return;
+    }
+
+    if (selectedCarnet === undefined || selectedCarnet === null) {
+        console.log('No se ha seleccionado ningún carnet');
+        return;
+    }
+
+    // Verificar si el número de PC es mayor que 0
+    if (isNaN(noPc) || noPc <= 0) {
+        alert('El número de PC debe ser mayor que 0');
+        return;
+    }
+
+    // Verificar si existe el elemento PC especificado
+    const pcElement = document.querySelector(`.computadora[data-pc="${noPc}"] .cuadro`);
+    if (!pcElement) {
+        alert('No se encontró la PC especificada');
+        return; // Detener la ejecución de la función si no se encuentra la PC
     }
 
     const carnet = selectedCarnet; // Obtener el carnet seleccionado de la búsqueda
@@ -203,12 +220,14 @@ function registrarTiempo(e) {
             if (response === "OK") {
                 // Cambiar el color del cuadro correspondiente al número de PC
                 pcElement.style.backgroundColor = 'red';
-            } 
 
-            // Recargar la tabla después de completar el préstamo
-            tblRegistro.ajax.reload();
-            // Limpiar la búsqueda después de registrar el tiempo
-            limpiarBusqueda();
+                // Recargar la tabla después de completar el préstamo
+                tblRegistro.ajax.reload();
+                // Limpiar la búsqueda después de registrar el tiempo
+                limpiarBusqueda();
+            } else {
+                alert(response);
+            }
         }
     }
 }
@@ -231,8 +250,6 @@ function btnFinalizar(id_registro) {
         }
     }
 }
-
-
 
 
 

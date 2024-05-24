@@ -85,7 +85,9 @@ html {
 
 /*----------Pagina Laboratorios----------*/
 .btnnuevo {
-    margin-left: 20px
+    margin-left: 100px;
+    width: 200px
+    
 }
 
 /*----------Pagina Inicio----------*/
@@ -120,6 +122,14 @@ html {
     grid-template-columns: repeat(10, 1fr);
     gap: 10px;
     width: 100%;
+}
+ 
+.computadora {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    text-align: center;
+    margin-right: 0px; /* Ajusta el margen derecho */
 }
 
 .cuadro {

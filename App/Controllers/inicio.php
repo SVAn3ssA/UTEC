@@ -67,28 +67,38 @@ class inicio extends controller
     }
 
     public function registrar()
-{
-    $nolaboratorio = $_POST['noLaboratorio'];
-    $nopc = $_POST['noPc'];
-    $carnet = $_POST['carnet'];
+    {
+        $nolaboratorio = $_POST['noLaboratorio'];
+        $nopc = $_POST['noPc'];
+        $carnet = $_POST['carnet'];
 
-    // Validar que el número de PC sea mayor que 0
-    if ($nopc <= 0) {
-        $mensaje = "Error: El número de PC debe ser mayor que 0";
+        // Validar que el número de PC sea mayor que 0
+        if ($nopc <= 0) {
+            $mensaje = "Error: El número de PC debe ser mayor que 0";
+            echo json_encode($mensaje);
+            die();
+        }
+
+        // Verificar si el número de PC está disponible
+        $registros = $this->modelo->listarEstudiantesTiempo();
+        foreach ($registros as $registro) {
+            if ($registro['no_pc'] == $nopc) {
+                $mensaje = "Error: El número de PC ya está en préstamo";
+                echo json_encode($mensaje);
+                die();
+            }
+        }
+
+        $resultados = $this->modelo->iniciarPrestamo($nolaboratorio, $nopc, $carnet);
+        if ($resultados) {
+            $mensaje = "OK";
+        } else {
+            $mensaje = "Error al iniciar el préstamo";
+        }
+
         echo json_encode($mensaje);
         die();
     }
-
-    $resultados = $this->modelo->iniciarPrestamo($nolaboratorio, $nopc, $carnet);
-    if ($resultados) {
-        $mensaje = "OK";
-    } else {
-        $mensaje = "Error al iniciar el préstamo";
-    }
-
-    echo json_encode($mensaje);
-    die();
-}
 
 
 
@@ -111,10 +121,10 @@ class inicio extends controller
     }
 
 
-    public function modificar($id){
+    public function modificar($id)
+    {
         $observacion = isset($_GET['observacion']) ? $_GET['observacion'] : ""; // Obtener el valor de la observación si se proporciona
         $registros = $this->modelo->finalizarPrestamo($id, $observacion);
         echo json_encode($registros);
     }
-    
 }

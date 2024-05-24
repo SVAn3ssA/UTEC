@@ -134,7 +134,9 @@ function frmLab() {
     document.querySelector('.estado-inactivo-container').style.display = 'none'; // Oculta el contenedor del estado inactivo
     document.getElementById("estado1").checked = true; // Marca el estado activo por defecto
     document.getElementById("estado2").checked = false; // Desmarca el estado inactivo
-    
+   
+    // Establecer el campo noLaboratorio como editable
+    toggleReadOnlyMode(false);
 }
 
 
@@ -145,6 +147,10 @@ function btnSeleccionarLab(id) {
     document.getElementById("titulo").innerHTML = "Modificar";
     document.getElementById("btnAccionModificar").style.display = "block"; // Muestra el botón de Modificar
     document.getElementById("btnAccionModificar").innerHTML = "Modificar";
+   
+    // Establecer el campo noLaboratorio como solo lectura
+    toggleReadOnlyMode(true);
+   
     const url = APP_URL + "laboratorios/seleccionarLab/" + id;
     const http = new XMLHttpRequest();
     http.open("GET", url, true);
@@ -165,4 +171,9 @@ function btnSeleccionarLab(id) {
             $("#modalLaboratorio").modal('show');
         }
     }
+}
+ 
+function toggleReadOnlyMode(readonly) {
+    const inputNoLaboratorio = document.getElementById("noLaboratorio");
+    inputNoLaboratorio.readOnly = readonly;
 }
