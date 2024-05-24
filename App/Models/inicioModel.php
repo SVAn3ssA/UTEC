@@ -18,7 +18,7 @@ class inicioModel extends conexion
         // Preparar la consulta
         $stmt = $this->con->prepare($sql);
 
-        // Bind de parámetros
+        // Vincular parámetros
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
@@ -50,11 +50,11 @@ class inicioModel extends conexion
     {
         try {
             // Preparar la llamada al procedimiento almacenado
-            $query = "CALL SP_BuscarEstudiante(:carnet)";
+            $query = "CALL SP_BuscarEstudiante(?)";
             $stmt = $this->con->prepare($query);
 
             // Vincular parámetro
-            $stmt->bindParam(':carnet', $carnet, PDO::PARAM_STR);
+            $stmt->bindParam(1, $carnet, PDO::PARAM_STR);
 
             // Ejecutar la consulta
             $stmt->execute();
@@ -71,79 +71,72 @@ class inicioModel extends conexion
 
 
     public function iniciarPrestamo($nolaboratorio, $nopc, $carnet)
-{
-    try {
-        // Preparar la consulta
-        $query = "CALL SP_IniciarPrestamo(:nolaboratorio_param, :nopc_param, :carnet)";
-        $stmt = $this->con->prepare($query);
-
-        // Bind de parámetros
-        $stmt->bindParam(':nolaboratorio_param', $nolaboratorio, PDO::PARAM_INT);
-        $stmt->bindParam(':nopc_param', $nopc, PDO::PARAM_INT);
-        $stmt->bindParam(':carnet', $carnet, PDO::PARAM_STR);
-
-        // Ejecutar la consulta
-        $stmt->execute();
-
-        // Verificar si se afectaron filas en la base de datos
-        $filas_afectadas = $stmt->rowCount();
-
-        // Si se afectó al menos una fila, se considera exitoso
-        return $filas_afectadas > 0;
-    } catch (PDOException $e) {
-        // Manejar excepciones si ocurre un error
-        error_log("Error de base de datos: " . $e->getMessage());
-        return false; // Falla
-    }
-}
-
-
-
-    public function listarEstudiantesTiempo()
-    {
-        $consulta = "SELECT id_registro, no_pc, carnet, observacion
-        FROM registrotiempoestudiantes
-        WHERE tiempo = '00:00:00';";
-
-        // Preparar la consulta SQL
-        $stmt = $this->con->prepare($consulta);
-
-        // Ejecutar la consulta
-        $stmt->execute();
-
-        // Obtener los resultados como un array asociativo
-        $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $registros;
-    }
-
-    public function finalizarPrestamo($id_registro, $observacion)
     {
         try {
             // Preparar la consulta
-            $query = "CALL SP_FinalizarPrestamo(:id_registro_param, :observacion_param)";
+            $query = "CALL SP_IniciarPrestamo(?, ?, ?)";
             $stmt = $this->con->prepare($query);
 
-            // Bind de parámetros
-            $stmt->bindParam(':id_registro_param', $id_registro, PDO::PARAM_INT);
-            $stmt->bindParam(':observacion_param', $observacion, PDO::PARAM_STR);
+            // Vincular parámetros
+            $stmt->bindParam(1, $nolaboratorio, PDO::PARAM_INT);
+            $stmt->bindParam(2, $nopc, PDO::PARAM_INT);
+            $stmt->bindParam(3, $carnet, PDO::PARAM_STR);
 
             // Ejecutar la consulta
-            echo "Ejecutando consulta: $query <br>"; // Mensaje para verificar la consulta que se está ejecutando
             $stmt->execute();
 
             // Verificar si se afectaron filas en la base de datos
             $filas_afectadas = $stmt->rowCount();
 
-            // Agregar un mensaje para verificar el número de filas afectadas
-            echo "Filas afectadas: $filas_afectadas <br>";
-
             // Si se afectó al menos una fila, se considera exitoso
-            if ($filas_afectadas > 0) {
-                return true;
-            } else {
-                return false; // No se afectaron filas, operación fallida
-            }
+            return $filas_afectadas > 0;
+        } catch (PDOException $e) {
+            // Manejar excepciones si ocurre un error
+            error_log("Error de base de datos: " . $e->getMessage());
+            return false; // Falla
+        }
+    }
+
+
+    public function listarEstudiantesTiempo($no_laboratorio)
+    {
+        try {
+            // Preparar la consulta
+            $query = "CALL SP_ListarEstudiantesTiempo(?)";
+            $stmt = $this->con->prepare($query);
+
+            // Vincular el parámetro
+            $stmt->bindParam(1, $no_laboratorio, PDO::PARAM_INT);
+
+            // Ejecutar la consulta
+            $stmt->execute();
+
+            // Obtener los resultados como un array asociativo
+            $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros;
+        } catch (PDOException $e) {
+            // Manejar excepciones si ocurre un error
+            error_log("Error de base de datos: " . $e->getMessage());
+            return false; // Falla
+        }
+    }
+
+
+    public function finalizarPrestamo($id_registro, $observacion)
+    {
+        try {
+            // Preparar la consulta
+            $query = "CALL SP_FinalizarPrestamo(?, ?)";
+            $stmt = $this->con->prepare($query);
+
+            // Vincular parámetros
+            $stmt->bindParam(1, $id_registro, PDO::PARAM_INT);
+            $stmt->bindParam(2, $observacion, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return true;
         } catch (PDOException $e) {
             // Manejar excepciones si ocurre un error
             echo "Error de base de datos: " . $e->getMessage();

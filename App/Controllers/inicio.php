@@ -68,6 +68,12 @@ class inicio extends controller
 
     public function registrar()
     {
+        // Validar que los datos han sido enviados
+        if (!isset($_POST['noLaboratorio'], $_POST['noPc'], $_POST['carnet'])) {
+            echo json_encode("Error: Datos incompletos");
+            die();
+        }
+
         $nolaboratorio = $_POST['noLaboratorio'];
         $nopc = $_POST['noPc'];
         $carnet = $_POST['carnet'];
@@ -80,7 +86,7 @@ class inicio extends controller
         }
 
         // Verificar si el número de PC está disponible
-        $registros = $this->modelo->listarEstudiantesTiempo();
+        $registros = $this->modelo->listarEstudiantesTiempo($nolaboratorio); // Filtrando por laboratorio
         foreach ($registros as $registro) {
             if ($registro['no_pc'] == $nopc) {
                 $mensaje = "Error: El número de PC ya está en préstamo";
@@ -102,22 +108,27 @@ class inicio extends controller
 
 
 
+
     public function listar()
     {
-        $registros = $this->modelo->listarEstudiantesTiempo();
+        // Suponiendo que el número de laboratorio está almacenado en la sesión del usuario
+        $no_laboratorio = $_SESSION['no_laboratorio']; // Ajusta esto según tu lógica
+
+        $registros = $this->modelo->listarEstudiantesTiempo($no_laboratorio);
         for ($i = 0; $i < count($registros); $i++) {
             $id_registro = $registros[$i]['id_registro'];
             $registros[$i]['acciones'] =
                 '<div>
-            <button class="btn btn-primary" type="button" onclick="btnFinalizar(' . $id_registro . ')">Finalizar</button>
-        </div>';
+                <button class="btn btn-primary" type="button" onclick="btnFinalizar(' . $id_registro . ')">Finalizar</button>
+            </div>';
             // Agregar campo de observación con identificador único
             $registros[$i]['observacion'] =
                 '<div>
-            <input type="text" class="form-control" id="observacion_' . $id_registro . '" name="observacion">
-        </div>';
+                <input type="text" class="form-control" id="observacion_' . $id_registro . '" name="observacion">
+            </div>';
         }
         echo json_encode($registros);
+        die();
     }
 
 
