@@ -167,3 +167,7 @@ html {
 .btnnuevo{
     margin-left: 20px
 }
+
+#estado2 {
+    display: none;
+}

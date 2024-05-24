@@ -42,12 +42,32 @@
                             <label for="programas">Programas</label>
                             <textarea class="form-control" id="programas" name="programas" rows="4"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)" id="btnAccionGuardar">Guardar</button>
-                        <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)" id="btnAccionModificar">Modificar</button>
-                    </form>
+                        <div class="form-group mb-4">
+                            <label for="estado">Estado:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="estado1" name="estado" value="1" checked>
+                                <label class="form-check-label">
+                                    Activo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="estado2" name="estado" value="0">
+                                <label class="form-check-label">
+                                    Inactivo
+                                </label>
+                            </div>
+                        </div>
+
+
                 </div>
+                <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)"
+                    id="btnAccionGuardar">Guardar</button>
+                <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)"
+                    id="btnAccionModificar">Modificar</button>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
         <table id="listaLaboratorios" class="display nowrap" style="width:100%">
@@ -57,6 +77,7 @@
                     <th>No. Pc</th>
                     <th>Descripción</th>
                     <th>Programas</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>

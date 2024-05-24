@@ -11,10 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
             { data: "no_pc", searchable: true, className: "text-center" },
             { data: "descripcion", searchable: true, className: "text-center" },
             { data: "programas", searchable: true, className: "text-center" },
+            { data: "estado", searchable: true, className: "text-center" },
             { data: "acciones", className: "text-center" },
         ],
         columnDefs: [{
-            "targets": [0, 1, 2, 3,],
+            "targets": [0, 1, 2, 3, 4],
             "orderable": false,
         }],
         language: {
@@ -44,9 +45,11 @@ function frmLab() {
     document.getElementById("titulo").innerHTML = "Agregar";
     document.getElementById("btnAccionGuardar").style.display = "block"; // Asegura que el botón de "Guardar" esté visible
     document.getElementById("btnAccionModificar").style.display = "none"; // Oculta el botón de "Modificar"
-    document.getElementById("formLaboratorio").reset();
-}
+    document.querySelector('.estado-inactivo-container').style.display = 'none'; // Oculta el contenedor del estado inactivo
+    document.getElementById("estado1").checked = true; // Marca el estado activo por defecto
+    document.getElementById("estado2").checked = false; // Desmarca el estado inactivo
 
+}
 
 
 function registrarLaboratorio(e) {
@@ -86,8 +89,16 @@ function registrarLaboratorio(e) {
 
 function modifirLaboratorio(e) {
     e.preventDefault();
+
     const url = APP_URL + "laboratorios/modificarLaboratorio";
     const frm = document.getElementById("formLaboratorio");
+    
+    // Obtener el valor del estado seleccionado
+    const estado = document.querySelector('input[name="estado"]:checked').value;
+
+    // Establecer el valor del estado en el formulario
+    frm.elements["estado"].value = estado;
+
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.send(new FormData(frm));
@@ -121,6 +132,7 @@ function modifirLaboratorio(e) {
 
 
 function btnSeleccionarLab(id) {
+    document.querySelector('#estado2').style.display = 'none';
     document.getElementById("btnAccionGuardar").style.display = "none"; // Oculta el botón de Guardar
     document.getElementById("titulo").innerHTML = "Modificar";
     document.getElementById("btnAccionModificar").style.display = "block"; // Muestra el botón de Modificar
@@ -137,7 +149,14 @@ function btnSeleccionarLab(id) {
             document.getElementById("noPc").value = laboratorios.no_pc;
             document.getElementById("descripcion").value = laboratorios.descripcion;
             document.getElementById("programas").value = laboratorios.programas;
+            if (laboratorios.estado === 1) {
+                document.getElementById("estado1").checked = true;
+                document.getElementById("estado2").style.display = "block"; // Muestra el botón de radio para el estado "Inactivo"
+            } else {
+                document.getElementById("estado2").checked = true;
+            }
 
+            
             $("#modalLaboratorio").modal('show');
         }
     }
