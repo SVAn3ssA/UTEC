@@ -26,12 +26,12 @@ html {
     background: var(--color-uno);
 }
 
-.nav-link{
-    color:#fff;
+.nav-link {
+    color: #fff;
 }
 
-.menu{
-    background-color:#AD103C ;
+.menu {
+    background-color: #AD103C;
 }
 
 .navbar-nav .nav-link {
@@ -77,86 +77,6 @@ html {
 
 
 
-/*----------Campo buscar estudiante----------*/
-.contenido {
-    margin-left: 130px; /* Mueve el contenido hacia la derecha */
-}
-
-#frmdatosprestamo {
-    
-    margin-left: 160px; /* Desplazar hacia la derecha */
-}
-
-#cancelarBusqueda {
-    background-color: #ff0000; /* Color de fondo rojo */
-    color: #ffffff; /* Color de texto blanco */
-}
-
-.inputbuscar {
-    max-width: 180px;
-}
-
-.botones {
-    margin-top: 10px;
-}
-
-.tablaBuscador {
-    width: 700px;
-    overflow-y: auto; /* Habilita el scroll vertical si es necesario */
-    padding: 10px;
-    margin-top: 5px; /* Reducir el margen superior */
-    position: sticky;
-    top: -100; /* Fija el elemento en la parte superior */
-    margin-left: 100px;
-
-}
-
-
-.frmdatosprestamo{
-    margin-left: 30px;
-    width: 40%;
-    margin-right: auto;
-    margin-top: -190px;
-}
-
-
-.computadoras {
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    padding: 0px; /* Sin espacio a los lados */
-    justify-content: flex-end; /* Alinea todo a la derecha */
-    margin-left: auto; /* Mueve el div a la derecha */
-    margin-bottom: 0; /* Reducir el espacio inferior del contenedor */
-    margin-top: -50px; /* Reducir el espacio superior del contenedor */
-    width: 45%; /* El div ocupará todo el ancho disponible */
-}
-
-.computadora {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
-    text-align: center;
-    margin-right: 100px; /* Ajusta el margen derecho */
-}
-
-.cuadro {
-    width: 20px; /* Tamaño más pequeño */
-    height: 20px; /* Tamaño más pequeño */
-    background-color:gray; /* Puedes cambiar el color según tus necesidades */
-    margin-bottom: 5px; /* Ajusta el margen inferior para separar los cuadros */
-}
-
-.etiqueta {
-    font-size: 10px; /* Tamaño de fuente normal */
-    width: 40px; /* Ancho fijo para asegurar que el texto esté en una sola línea */
-    white-space: nowrap; /* Evita que el texto se envuelva a la siguiente línea */
-    overflow: hidden; /* Oculta cualquier exceso de texto que no quepa */
-    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) si el texto es demasiado largo */
-    text-align: center; /* Centra el texto horizontalmente */
-}
-
-
-
 /*----------Tabla lista usuarios----------*/
 #lista th,
 #lista td {
@@ -164,6 +84,83 @@ html {
 }
 
 /*----------Pagina Laboratorios----------*/
-.btnnuevo{
+.btnnuevo {
     margin-left: 20px
+}
+
+/*----------Pagina Inicio----------*/
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left-column {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    max-width: 50%;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    margin: 10px;
+}
+
+.right-column {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px;
+}
+
+.computadoras {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+.cuadro {
+    width: 20px;
+    /* Tamaño más pequeño */
+    height: 20px;
+    /* Tamaño más pequeño */
+    background-color: gray;
+    /* Puedes cambiar el color según tus necesidades */
+    margin-bottom: 5px;
+    /* Ajusta el margen inferior para separar los cuadros */
+}
+
+.etiqueta {
+    font-size: 10px;
+    /* Tamaño de fuente normal */
+    width: 40px;
+    /* Ancho fijo para asegurar que el texto esté en una sola línea */
+    white-space: nowrap;
+    /* Evita que el texto se envuelva a la siguiente línea */
+    overflow: hidden;
+    /* Oculta cualquier exceso de texto que no quepa */
+    text-overflow: ellipsis;
+    /* Muestra puntos suspensivos (...) si el texto es demasiado largo */
+    text-align: center;
+    /* Centra el texto horizontalmente */
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.espacio {
+    margin-top: 80px;
+    /* Ajusta este valor según la altura de tu menú de navegación */
+
+}
+
+.espacio2 {
+    margin-top: 10px;
+    /* Ajusta este valor según la altura de tu menú de navegación */
+    padding: 2%;
+
 }

@@ -102,6 +102,16 @@ function frmLogin(e) {
 }
 
 
+function limpiarBusqueda() {
+    // Limpiar el campo de búsqueda de carnet y el número de PC
+    document.getElementById('carnet').value = '';
+    document.getElementById('noPc').value = '';
+
+    // Limpiar la tabla de resultados y ocultarla
+    document.getElementById('resultsBody').innerHTML = '';
+    document.getElementById('resultsTable').style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // Función para agregar event listeners
     function setupEventListeners() {
@@ -118,35 +128,21 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('El formulario de búsqueda no fue encontrado en esta página');
         }
 
-        var resultsBody = document.getElementById('resultsBody');
-        if (resultsBody) {
-            resultsBody.addEventListener('click', function (e) {
-                if (e.target && e.target.nodeName === 'TD') {
-                    var carnet = e.target.parentElement.cells[0].textContent;
-                    selectedCarnet = carnet;
-                }
-            });
-        } else {
-            console.log('El cuerpo de la tabla de resultados no fue encontrado en esta página');
-        }
-
-        var cancelarBusqueda = document.getElementById('cancelarBusqueda');
-        if (cancelarBusqueda) {
-            cancelarBusqueda.addEventListener('click', function () {
-                document.getElementById('carnet').value = '';
-                document.getElementById('noLaboratorio').value = '';
-                document.getElementById('noPc').value = '';
-                document.getElementById('resultsBody').innerHTML = '';
-                document.getElementById('resultsTable').style.display = 'none';
-            });
+        // Agregar event listener para el botón de limpiar búsqueda
+        var limpiarBusquedaBtn = document.getElementById('cancelarBusqueda');
+        if (limpiarBusquedaBtn) {
+            limpiarBusquedaBtn.addEventListener('click', limpiarBusqueda);
         } else {
             console.log('El botón de cancelar búsqueda no fue encontrado en esta página');
         }
+
+        // Resto del código de event listeners...
     }
 
     // Llamar a la función para agregar event listeners
     setupEventListeners();
 });
+
 
 function buscar(buscar) {
     fetch('inicio/buscar/' + buscar)
@@ -183,19 +179,15 @@ function registrarTiempo(e) {
     const noLaboratorio = document.getElementById("noLaboratorioSession").value;
     const noPc = document.getElementById("noPc").value;
 
-    if (noLaboratorio === "") {
-        console.log('El número de laboratorio no está definido');
-        return;
-    }
-
-    if (selectedCarnet === undefined || selectedCarnet === null) {
-        console.log('No se ha seleccionado ningún carnet');
+    // Verificar si se ha seleccionado un carnet
+    if (typeof selectedCarnet === 'undefined' || selectedCarnet === null) {
+        alert("Debe realizar una búsqueda y seleccionar un carnet antes de prestar una máquina.");
         return;
     }
 
     const carnet = selectedCarnet; // Obtener el carnet seleccionado de la búsqueda
     const url = APP_URL + "inicio/registrar";
-    const frm = document.getElementById("prestamoForm");
+    const frm = document.getElementById("frmdatosprestamo");
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     const formData = new FormData(frm);
@@ -211,15 +203,16 @@ function registrarTiempo(e) {
             const pcElement = document.querySelector(`.computadora[data-pc="${noPc}"] .cuadro`);
             if (pcElement) {
                 pcElement.style.backgroundColor = 'red';
-            } else {
-                alert('No se encontró la PC especificada');
-            }
+            } 
 
             // Recargar la tabla después de completar el préstamo
             tblRegistro.ajax.reload();
+            // Limpiar la búsqueda después de registrar el tiempo
+            limpiarBusqueda();
         }
     }
 }
+
 
 
 
@@ -238,7 +231,6 @@ function btnFinalizar(id_registro) {
         }
     }
 }
-
 
 
 
