@@ -8,11 +8,20 @@ class laboratorios extends controller
         parent::__construct();
     }
 
+    private function verificarSesion()
+    {
+        if (!isset($_SESSION['id'])) {
+            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
+            exit();
+        }
+    }
+
     public function index()
     {
-
+        $this->verificarSesion();
         $this->vista->obtenerVista($this, "index");
     }
+
 
     public function listarLaboratorios()
     {
@@ -38,6 +47,18 @@ class laboratorios extends controller
         $descripcion = $_POST['descripcion'];
         $programas = $_POST['programas'];
         $estado = $_POST['estado'];
+
+        if ($noLaboratorio <= 0) {
+            $mensaje = "Error: El número del laboratorio debe ser mayor que 0";
+            echo json_encode($mensaje);
+            die();
+        }
+
+        if ($noPc<= 0) {
+            $mensaje = "El número de computadoras en el laboratorio debe ser mayor que 0";
+            echo json_encode($mensaje);
+            die();
+        }
 
         // Validaciones del lado del servidor
         $mensajeError = $this->validarCampos($noLaboratorio, $noPc);

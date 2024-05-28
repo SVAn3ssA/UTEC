@@ -1,15 +1,29 @@
 <?php
 class inicio extends controller
 {
-
     public function __construct()
     {
         session_start();
         parent::__construct();
     }
 
+    private function verificarSesion()
+    {
+        if (!isset($_SESSION['id'])) {
+            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
+            exit();
+        }
+    }
+
+    private function obtenerMetodoActual()
+    {
+        // Obtener el método actual llamado en el controlador
+        return isset($_GET['url']) ? explode('/', $_GET['url'])[1] : 'index';
+    }
+
     public function index()
     {
+        $this->verificarSesion();
         $this->vista->obtenerVista($this, "index");
     }
 

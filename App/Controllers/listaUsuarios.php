@@ -7,8 +7,16 @@ class ListaUsuarios extends controller
         parent::__construct();
     }
 
+    private function verificarSesion()
+    {
+        if (!isset($_SESSION['id'])) {
+            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
+            exit();
+        }
+    }
     public function index()
     {
+        $this->verificarSesion();
         $privilegio = $this->modelo->listarPrivilegios()->fetchAll(PDO::FETCH_ASSOC);
         $laboratorio = $this->modelo->listarLaboratorios()->fetchAll(PDO::FETCH_ASSOC);
 
