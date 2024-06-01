@@ -18,10 +18,15 @@
 <!---LABORATORIOS--->
 <script src="<?php echo APP_URL; ?>App/Views/js/laboratorios.js"></script>
 
+<!---REPORTES--->
+<script src="<?php echo APP_URL; ?>App/Views/js/reportes.js"></script>
+
 <!---JQUERY---><!---DATATABLE--->
 <script src="<?php echo APP_URL; ?>App/Views/js/jquery-3.7.1.js"></script>
 <script src="<?php echo APP_URL; ?>App/Views/js/dataTables.js"></script>
 <script src="<?php echo APP_URL; ?>App/Views/js/dataTables.responsive.js"></script>
 <script src="<?php echo APP_URL; ?>App/Views/js/responsive.dataTables.js"></script>
+<script src="<?php echo APP_URL; ?>App/Views/DataTables/dataTables.min.js"></script>
+
 
 

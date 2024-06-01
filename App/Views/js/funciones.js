@@ -60,7 +60,62 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", function () {
+    $('#historial').DataTable({
+        responsive: true,
+        ajax: {
+            url: APP_URL + "reportes/historial",
+            dataSrc: ''
+        },
+        columns: [
+            { data: "carnet", searchable: true, className: "text-center" },
+            { data: "fechahora", searchable: true, className: "text-center" },
+            { data: "tiempo", searchable: true, className: "text-center" },
+            { data: "observacion", searchable: false, className: "text-center" },
+            { data: "no_laboratorio", searchable: false, className: "text-center" },
+            { data: "no_pc", searchable: false, className: "text-center" },
+        ],
+        columnDefs: [{
+            targets: [0, 1, 2, 3, 4], orderable: false
+        }],
+        language: {
+            decimal: "",
+            emptyTable: "No hay datos disponibles en la tabla",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            infoPostFix: "",
+            thousands: ",",
+            lengthMenu: "Mostrar _MENU_ registros",
+            loadingRecords: "Cargando...",
+            processing: "Procesando...",
+            search: "Buscar:",
+            zeroRecords: "No se encontraron registros coincidentes",
+            aria: {
+                sortAscending: ": activar para ordenar la columna ascendente",
+                sortDescending: ": activar para ordenar la columna descendente"
+            }
+        },
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+            "<'row mt-3'<'col-sm-12'tr>>" + // Agregamos una clase de margen top (mt-3)
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
+        buttons: [{
+            text: '<button id="pdfButton" class="btn btn-danger"><i class="fa fa-file-pdf"></i></button>',
+            action: function () {
+                // Obtener el formulario por su ID
+                var form = document.getElementById('reporteForm');
+
+                // Enviar el formulario
+                form.submit();
+            }
+        },
+        {
+            text: '<button class="btn btn-success"><i class="fa fa-file-excel"></i></button>'
+        }
+        ]
+    });
+});
 
 
 

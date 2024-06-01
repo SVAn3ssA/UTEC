@@ -23,7 +23,7 @@
                 </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Reportes</a>
+                    <a class="nav-link" href="<?php echo APP_URL; ?>reportes">Reportes</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
