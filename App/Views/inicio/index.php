@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +16,7 @@
                 <form id="buscarForm" class="col-md-6">
                     <div class="form-group">
                         <label class="form-label">Ingrese carnet:</label>
-                        <input class="form-control" type="text" id="carnet" name="carnet" required>
+                        <input class="form-control" type="text" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Buscar">

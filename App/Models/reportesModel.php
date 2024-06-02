@@ -11,11 +11,17 @@ class reportesModel extends conexion
         $this->con = $this->pdo->conexion();
     }
 
-    public function listaHistorial()
+    public function listaHistorial($no_laboratorio = null)
     {
         try {
-            $consulta = "CALL SP_Historial";
+            $consulta = "CALL SP_Historial(?)";
             $stmt = $this->con->prepare($consulta);
+            // Vincular el parámetro
+            if ($no_laboratorio === null) {
+                $stmt->bindValue(1, null, PDO::PARAM_NULL);
+            } else {
+                $stmt->bindParam(1, $no_laboratorio, PDO::PARAM_INT);
+            }
             $stmt->execute();
             $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $registros;
@@ -23,6 +29,8 @@ class reportesModel extends conexion
             echo "Error de base de datos: " . $e->getMessage();
         }
     }
+
+
 
     public function reporteGeneral($tipo_reporte, $desde = null, $hasta = null, $anio = null, $numero_laboratorio = null, $ciclo = null, $dia = null)
     {
