@@ -12,8 +12,9 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
 
-    <button type="button" class="btn btn-primary btnnuevo" id="frmLaboratorio" onclick="frmLab();">Nuevo</button>
-
+    <?php if ($_SESSION['privilegio'] == 1): ?>
+        <button type="button" class="btn btn-primary btnnuevo" id="frmLaboratorio" onclick="frmLab();">Nuevo</button>
+    <?php endif; ?>
 
     <div id="modalLaboratorio" class="modal" tabindex="-1">
         <div class="modal-dialog">
@@ -57,14 +58,18 @@
                                 </label>
                             </div>
                         </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)" id="btnAccionGuardar">Guardar</button>
-                <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)" id="btnAccionModificar">Modificar</button>
-                </form>
+                <?php if ($_SESSION['privilegio'] == 1): ?>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)" id="btnAccionGuardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)" id="btnAccionModificar">Modificar</button>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-    </div>
+
     <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
         <table id="listaLaboratorios" class="display nowrap" style="width:100%">
             <thead>
@@ -82,7 +87,6 @@
             </tbody>
         </table>
     </div>
-
 
     <?php require_once "./app/views/inc/script.php"; ?>
 </body>

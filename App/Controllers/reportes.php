@@ -8,8 +8,17 @@ class reportes extends controller
         parent::__construct();
     }
 
+    private function verificarSesion()
+    {
+        if (!isset($_SESSION['id'])) {
+            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
+            exit();
+        }
+    }
+
     public function index()
     {
+        $this->verificarSesion();
         $this->vista->obtenerVista($this, "index");
     }
 
@@ -115,7 +124,7 @@ class reportes extends controller
             $pdf->SetFont('Arial', '', 12);
             date_default_timezone_set("America/El_Salvador");
             $pdf->Cell(55, 10, 'Fecha: ' . date('Y-m-d H:i:s'), 0, 1, 'C');
-            $pdf->Cell(0, 10, 'Creado por: ' . $nombre_usuario, 0, 1);
+            $pdf->Cell(0, 10, 'Encargado de laboratorio: ' . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
             $pdf->Cell(0, 10, 'Correo: ' . $email, 0, 1);
             // Mostrar el total de registros
             $pdf->Cell(0, 10, 'Total de registros: ' . count($resultado), 0, 1);

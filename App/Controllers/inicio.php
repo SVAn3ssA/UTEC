@@ -15,12 +15,6 @@ class inicio extends controller
         }
     }
 
-    private function obtenerMetodoActual()
-    {
-        // Obtener el método actual llamado en el controlador
-        return isset($_GET['url']) ? explode('/', $_GET['url'])[1] : 'index';
-    }
-
     public function index()
     {
         $this->verificarSesion();

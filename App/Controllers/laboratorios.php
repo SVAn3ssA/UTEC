@@ -24,21 +24,27 @@ class laboratorios extends controller
 
 
     public function listarLaboratorios()
-    {
-        $registros = $this->modelo->listarLaboratorio();
-        for ($i = 0; $i < count($registros); $i++) {
-            if ($registros[$i]['estado'] == 1) {
-                $registros[$i]['estado'] = '<span style="color: green;">Activo</span>';
-            } else {
-                $registros[$i]['estado'] = '<span style="color: red;">Inactivo</span>';
-            }
+{
+    $registros = $this->modelo->listarLaboratorio();
+    for ($i = 0; $i < count($registros); $i++) {
+        if ($registros[$i]['estado'] == 1) {
+            $registros[$i]['estado'] = '<span style="color: green;">Activo</span>';
+        } else {
+            $registros[$i]['estado'] = '<span style="color: red;">Inactivo</span>';
+        }
+        // Verificar el privilegio del usuario
+        if ($_SESSION['privilegio'] == 1) {
             $registros[$i]['acciones'] =
                 '<div>
                     <button class="btn btn-primary" type="button" onclick="btnSeleccionarLab(' . $registros[$i]['no_laboratorio'] . ');">Modificar</button>
                 </div>';
+        } else {
+            $registros[$i]['acciones'] = ''; // No agregar el botón si el privilegio no es 1
         }
-        echo json_encode($registros, JSON_UNESCAPED_UNICODE);
     }
+    echo json_encode($registros, JSON_UNESCAPED_UNICODE);
+}
+
 
     public function agregarLaboratorio()
     {

@@ -73,8 +73,8 @@
 
     <div class="card my-2">
         <div class="card">
-            <div class="card-header bg-dark text-white">
-                Historial
+            <div class="card-header bg-dark text-white text-center" >
+                Historial de prácticas libres en laboratorios de informática
             </div>
         </div>
         <div class="card-body">
@@ -99,6 +99,7 @@
         </div>
     </div>
     <?php require_once "./app/views/inc/script.php"; ?>
+    
 </body>
 
 </html>

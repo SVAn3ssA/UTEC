@@ -17,11 +17,11 @@
                         <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a></li>
                     </ul>
                 </li>
-                
+                <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
                 </li>
-                <?php endif; ?>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo APP_URL; ?>reportes">Reportes</a>
                 </li>

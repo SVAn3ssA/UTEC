@@ -11,6 +11,7 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="espacio"></div>
 
+    <h5 class="nombre-lab text-center">Laboratorio: <?php echo $_SESSION['no_laboratorio'];?></h5>
     <div class="contenedor">
         <div class="left-column">
             <div class="form-container">

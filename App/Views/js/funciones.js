@@ -306,7 +306,18 @@ function btnFinalizar(id_registro) {
     }
 }
 
+document.getElementById('numero_laboratorio').addEventListener('input', function (e) {
+    var value = e.target.value;
+    if (value < 1) {
+        e.target.value = '';
+    }
+});
 
+document.getElementById('numero_laboratorio').addEventListener('keypress', function (e) {
+    if (e.key === '0' && this.value === '') {
+        e.preventDefault();
+    }
+});
 
 
 
