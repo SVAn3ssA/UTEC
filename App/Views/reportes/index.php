@@ -26,7 +26,13 @@
                     </div>
                     <div class="form-group">
                         <label for="numero_laboratorio">Número de Laboratorio</label>
-                        <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control">
+                        <?php if ($_SESSION['privilegio'] == 1) : ?>
+                            <!-- Si el usuario tiene privilegio 1, se muestra un input editable -->
+                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+                        <?php else : ?>
+                            <!-- Si el usuario no tiene privilegio 1, se muestra un input de solo lectura -->
+                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>" readonly>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-md-3" id="fecha_rango">

@@ -22,11 +22,28 @@ class reportes extends controller
         $this->vista->obtenerVista($this, "index");
     }
 
+    private function verificarSesion()
+    {
+        if (!isset($_SESSION['id'])) {
+            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
+            exit();
+        }
+    }
+
     public function historial()
     {
-        $data = $this->modelo->listaHistorial();
+        if ($_SESSION['id'] === 1) {
+            // Para el jefe, obtener todo el historial
+            $data = $this->modelo->listaHistorial(null);
+        } else {
+            // Para un encargado, obtener solo el historial de su laboratorio
+            $no_laboratorio = $_SESSION['no_laboratorio'];
+            $data = $this->modelo->listaHistorial($no_laboratorio);
+        }
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
+
+
 
 
 

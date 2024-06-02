@@ -111,7 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         {
-            text: '<button class="btn btn-success"><i class="fa fa-file-excel"></i></button>'
+            extend: 'excelHtml5',
+            text: '<button class="btn btn-success"><i class="fa fa-file-excel"></i></button>',
+            className: 'btn btn-success'
         }
         ]
     });
@@ -209,8 +211,9 @@ function buscar(buscar) {
             document.getElementById('resultsTable').style.display = 'block';
 
             if (data.length === 0) {
-                // Mostrar mensaje de error dentro de la tabla
-                document.getElementById('resultsBody').innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron resultados.</td></tr>';
+                document.getElementById('resultsTable').style.display = 'none';
+                // Mostrar alerta si no se encontraron resultados
+                alert('Carnet no encontrado');
                 document.getElementById('errorMessage').style.display = 'none';
             } else {
                 // Guardar el carnet del primer estudiante en la variable global
