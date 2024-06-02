@@ -8,14 +8,6 @@ class reportes extends controller
         parent::__construct();
     }
 
-    private function verificarSesion()
-    {
-        if (!isset($_SESSION['id'])) {
-            header("Location: " . APP_URL); // Redirigir a la vista de inicio de sesión si no hay sesión
-            exit();
-        }
-    }
-
     public function index()
     {
         $this->verificarSesion();
