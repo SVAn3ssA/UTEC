@@ -100,7 +100,7 @@ html {
     display: flex;
     flex-wrap: wrap;
     flex: 1;
-    max-width: 50%;
+    max-width: 29%;
     padding: 20px;
 }
 
@@ -113,24 +113,55 @@ html {
 
 .right-column {
     flex: 1;
-    max-width: 50%;
+    max-width: 40%;
     padding: 20px;
 }
 
 .computadoras {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(15, 1fr);
     gap: 10px;
     width: 100%;
+    max-width: 90%; /* Ajusta el ancho máximo */
+    margin: 0 auto 0 auto; /* Centro automático horizontal */
+    margin-left: 24%; /* Mueve la cuadrícula más a la derecha */
+    justify-content: start; /* Alinea el contenido al inicio (izquierda) del contenedor */
 }
- 
+
 .computadora {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra los elementos horizontalmente */
     text-align: center;
-    margin-right: 0px; /* Ajusta el margen derecho */
+    padding: 5px;
+    border: 1px solid #ccc; /* Agrega un borde para visualización */
+    border-radius: 4px;
+    background-color: #f9f9f9; /* Color de fondo para visualización */
+    font-size: 0.8rem; /* Ajusta el tamaño de la fuente */
 }
+
+@media (max-width: 1200px) {
+    .computadoras {
+        grid-template-columns: repeat(10, 1fr);
+        max-width: 80%; /* Ajusta el ancho máximo */
+        margin-left: 20%; /* Mueve la cuadrícula más a la derecha en pantallas medianas */
+    }
+}
+
+@media (max-width: 768px) {
+    .computadoras {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+        max-width: 70%; /* Ajusta el ancho máximo */
+        margin-left: 0; /* Sin margen izquierdo adicional en pantallas pequeñas */
+    }
+    
+    .computadora {
+        padding: 3px;
+        font-size: 0.7rem; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+
 
 .cuadro {
     width: 20px;

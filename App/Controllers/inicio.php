@@ -22,15 +22,18 @@ class inicio extends controller
     }
 
     public function validar()
-    {
-        if (empty($_POST['email_usuario']) || empty($_POST['password_usuario'])) {
-            $mensaje = "Los campos están vacíos";
-        } else {
-            $email = $_POST['email_usuario'];
-            $password = $_POST['password_usuario'];
-            $data = $this->modelo->getUsuario($email, $password);
+{
+    if (empty($_POST['email_usuario']) || empty($_POST['password_usuario'])) {
+        $mensaje = "Los campos están vacíos";
+    } else {
+        $email = $_POST['email_usuario'];
+        $password = $_POST['password_usuario'];
+        $data = $this->modelo->getUsuario($email, $password);
 
-            if ($data) {
+        if ($data) {
+            if ($data['estado'] == 0) {
+                $mensaje = "Cuenta inactiva";
+            } else {
                 $_SESSION['id'] = $data['id_usuario'];
                 $_SESSION['nombres'] = $data['nombres'];
                 $_SESSION['apellidos'] = $data['apellidos'];
@@ -51,13 +54,15 @@ class inicio extends controller
                     error_log("Error al obtener el número de PCs.");
                     $mensaje = "Error al obtener el número de PCs del laboratorio.";
                 }
-            } else {
-                $mensaje = "Email o password incorrecto";
             }
+        } else {
+            $mensaje = "Email o password incorrecto";
         }
-        echo json_encode($mensaje);
-        die();
     }
+    echo json_encode($mensaje);
+    die();
+}
+
 
 
     public function cerrarSesion()
