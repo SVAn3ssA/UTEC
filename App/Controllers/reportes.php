@@ -304,46 +304,78 @@ class reportes extends controller
                 ],
             ];
 
-            // Especificar los encabezados
-            $headers = ['Carnet', 'Fecha y Hora', 'Tiempo', 'Observación', 'Laboratorio', 'Pc'];
-            $col = 'A';
-            foreach ($headers as $header) {
-                $sheet->setCellValue($col . '3', $header);
-                $sheet->getStyle($col . '3')->applyFromArray($headerStyle);
-                $col++;
+            // Obtener el nombre completo del usuario desde la sesión
+            $nombre_usuario = isset($_SESSION['nombres']) && isset($_SESSION['apellidos']) ? $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'] : 'Usuario Desconocido';
+            $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Correo no disponible';
+
+            // Establecer el título del reporte basado en el tipo seleccionado
+            $titulo_reporte = '';
+            if ($tipo_reporte == 'rango') {
+                $titulo_reporte = 'Reporte Historial - Rango de Fechas';
+            } elseif ($tipo_reporte == 'anio') {
+                $titulo_reporte = 'Reporte Historial - Por Año';
+            } elseif ($tipo_reporte == 'ciclo') {
+                $titulo_reporte = 'Reporte Historial - Por Ciclo';
+            } elseif ($tipo_reporte == 'dia') {
+                $titulo_reporte = 'Reporte Historial - Por Día';
             }
 
-            // Llenar los datos
-            $rowNum = 4;
+            // Añadir encabezados de reporte
+            $sheet->setCellValue('A4', $titulo_reporte);
+            $sheet->mergeCells('A4:F4');
+            $sheet->getStyle('A4:F4')->getFont()->setBold(true);
+
+            $sheet->setCellValue('A5', 'Fecha: ' . date('Y-m-d H:i:s'));
+            $sheet->mergeCells('A5:F5');
+
+            $sheet->setCellValue('A6', 'Encargado de laboratorio: ' . $nombre_usuario);
+            $sheet->mergeCells('A6:F6');
+
+            $sheet->setCellValue('A7', 'Correo: ' . $email);
+            $sheet->mergeCells('A7:F7');
+
+            $sheet->setCellValue('A8', 'Total de registros: ' . count($resultado));
+            $sheet->mergeCells('A8:F8');
+
+            // Añadir los encabezados de columna
+            $columns = [
+                'Carnet', 'Fecha y Hora', 'Tiempo', 'Observacion', 'Laboratorio', 'Pc'
+            ];
+            $columnIndex = 'A';
+            $rowIndex = 10;
+            foreach ($columns as $column) {
+                $sheet->setCellValue($columnIndex . $rowIndex, $column);
+                $sheet->getColumnDimension($columnIndex)->setAutoSize(true);
+                $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($headerStyle);
+                $columnIndex++;
+            }
+
+            // Añadir los datos
+            $rowIndex = 11;
             foreach ($resultado as $row) {
-                $sheet->setCellValue('A' . $rowNum, $row['carnet']);
-                $sheet->setCellValue('B' . $rowNum, $row['fechahora']);
-                $sheet->setCellValue('C' . $rowNum, $row['tiempo']);
-                $sheet->setCellValue('D' . $rowNum, $row['observacion']);
-                $sheet->setCellValue('E' . $rowNum, $row['no_laboratorio']);
-                $sheet->setCellValue('F' . $rowNum, $row['no_pc']);
-
-                // Aplicar estilo a cada fila de datos
-                $sheet->getStyle('A' . $rowNum . ':F' . $rowNum)->applyFromArray($dataStyle);
-
-                $rowNum++;
-            }
-
-            // Ajustar el tamaño de las columnas
-            foreach (range('A', 'F') as $col) {
-                $sheet->getColumnDimension($col)->setAutoSize(true);
+                $columnIndex = 'A';
+                // Saltar la primera columna de contador y ajustar el bucle para que empiece desde el índice correcto
+                foreach (array_slice($row, 1) as $cell) {
+                    $sheet->setCellValue($columnIndex . $rowIndex, $cell);
+                    $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($dataStyle);
+                    $columnIndex++;
+                }
+                $rowIndex++;
             }
 
             $writer = new Xlsx($spreadsheet);
-            $fileName = 'reporte.xlsx';
+            $fileName = 'reporte_historial.xlsx';
+            $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+            $writer->save($temp_file);
 
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="' . $fileName . '"');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
             header('Cache-Control: max-age=0');
-
-            $writer->save('php://output');
+            readfile($temp_file);
+            unlink($temp_file);
+            exit;
         } catch (Exception $e) {
-            echo "Error al generar el reporte: " . $e->getMessage();
+            echo 'Error: ' . $e->getMessage();
         }
     }
 }
