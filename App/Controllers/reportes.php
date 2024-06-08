@@ -122,13 +122,13 @@ class reportes extends controller
             $titulo_reporte = '';
 
             if ($tipo_reporte == 'rango') {
-                $titulo_reporte = 'Reporte Historial - Rango de Fechas';
+                $titulo_reporte = 'Reporte Historial - Rango de Fechas desde ' . $desde . ' hasta ' . $hasta;
             } elseif ($tipo_reporte == 'anio') {
-                $titulo_reporte = 'Reporte Historial - Por Año';
+                $titulo_reporte = 'Reporte Historial - Por Año ' . $anio;
             } elseif ($tipo_reporte == 'ciclo') {
-                $titulo_reporte = 'Reporte Historial - Por Ciclo';
+                $titulo_reporte = 'Reporte Historial - Por Ciclo ' . $ciclo . ' año ' . $anio;
             } elseif ($tipo_reporte == 'dia') {
-                $titulo_reporte = 'Reporte Historial - Por Día';
+                $titulo_reporte = 'Reporte Historial - Por Día ' . $dia;
             }
 
             // Codificamos el título correctamente antes de establecerlo en el PDF
@@ -139,7 +139,20 @@ class reportes extends controller
             $pdf->SetMargins(10, 10, 10);
             $pdf->SetFont('Arial', '', 12);
             date_default_timezone_set("America/El_Salvador");
-            $pdf->Cell(55, 10, 'Fecha: ' . date('Y-m-d H:i:s'), 0, 1, 'C');
+
+            $currentHour = date('H'); // Obtener la hora actual en formato de 24 horas
+
+            if ($currentHour < 12) {
+                $am_pm = 'AM';
+            } else {
+                $am_pm = 'PM';
+            }
+
+            // Convertir la hora actual al formato de hora normal (12 horas)
+            $normalTime = date('h:i:s', strtotime(date('H:i:s')));
+
+            $pdf->Cell(55, 10, 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime . ' ' . $am_pm, 0, 1, 'C');
+
             $pdf->Cell(0, 10, 'Encargado de laboratorio: ' . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
             $pdf->Cell(0, 10, 'Correo: ' . $email, 0, 1);
             // Mostrar el total de registros
@@ -254,8 +267,10 @@ class reportes extends controller
             $logoDrawing->setDescription('Logo UTEC');
             $logoDrawing->setPath($logoPath);
             $logoDrawing->setCoordinates('A1');
-            $logoDrawing->setOffsetX(5); // Ajustar la posición horizontal si es necesario
-            $logoDrawing->setOffsetY(5); // Ajustar la posición vertical si es necesario
+            // Ajustar la posición horizontal y vertical de la imagen
+            $logoDrawing->setOffsetX(90); // Ajustar la posición horizontal según sea necesario
+            $logoDrawing->setOffsetY(20); // Ajustar la posición vertical según sea necesario
+
             $logoDrawing->setWidth(90); // Ajustar el ancho de la imagen
             $logoDrawing->setHeight(90); // Ajustar la altura de la imagen
             $logoDrawing->setWorksheet($sheet);
@@ -308,25 +323,38 @@ class reportes extends controller
             $nombre_usuario = isset($_SESSION['nombres']) && isset($_SESSION['apellidos']) ? $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'] : 'Usuario Desconocido';
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Correo no disponible';
 
-            // Establecer el título del reporte basado en el tipo seleccionado
-            $titulo_reporte = '';
             if ($tipo_reporte == 'rango') {
-                $titulo_reporte = 'Reporte Historial - Rango de Fechas';
+                $titulo_reporte = 'Reporte Historial - Rango de Fechas desde ' . $desde . ' hasta ' . $hasta;
             } elseif ($tipo_reporte == 'anio') {
-                $titulo_reporte = 'Reporte Historial - Por Año';
+                $titulo_reporte = 'Reporte Historial - Por Año ' . $anio;
             } elseif ($tipo_reporte == 'ciclo') {
-                $titulo_reporte = 'Reporte Historial - Por Ciclo';
+                $titulo_reporte = 'Reporte Historial - Por Ciclo ' . $ciclo . ' año ' . $anio;
             } elseif ($tipo_reporte == 'dia') {
-                $titulo_reporte = 'Reporte Historial - Por Día';
+                $titulo_reporte = 'Reporte Historial - Por Día ' . $dia;
             }
 
             // Añadir encabezados de reporte
             $sheet->setCellValue('A4', $titulo_reporte);
             $sheet->mergeCells('A4:F4');
             $sheet->getStyle('A4:F4')->getFont()->setBold(true);
+            $sheet->getStyle('A4:F4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-            $sheet->setCellValue('A5', 'Fecha: ' . date('Y-m-d H:i:s'));
+            date_default_timezone_set("America/El_Salvador");
+
+            $currentHour = date('H'); // Obtener la hora actual en formato de 24 horas
+
+            if ($currentHour < 12) {
+                $am_pm = 'AM';
+            } else {
+                $am_pm = 'PM';
+            }
+
+            // Convertir la hora actual al formato de hora normal (12 horas)
+            $normalTime = date('h:i:s A', strtotime(date('H:i:s')));
+
+            $sheet->setCellValue('A5', 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime);
             $sheet->mergeCells('A5:F5');
+
 
             $sheet->setCellValue('A6', 'Encargado de laboratorio: ' . $nombre_usuario);
             $sheet->mergeCells('A6:F6');
@@ -337,7 +365,7 @@ class reportes extends controller
             $sheet->setCellValue('A8', 'Total de registros: ' . count($resultado));
             $sheet->mergeCells('A8:F8');
 
-            // Añadir los encabezados de columna
+            // Añadir los encabezados de columna y centrarlos
             $columns = [
                 'Carnet', 'Fecha y Hora', 'Tiempo', 'Observacion', 'Laboratorio', 'Pc'
             ];
@@ -347,6 +375,8 @@ class reportes extends controller
                 $sheet->setCellValue($columnIndex . $rowIndex, $column);
                 $sheet->getColumnDimension($columnIndex)->setAutoSize(true);
                 $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($headerStyle);
+                // Centrar los encabezados de columna
+                $sheet->getStyle($columnIndex . $rowIndex)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $columnIndex++;
             }
 
