@@ -105,15 +105,22 @@ document.addEventListener("DOMContentLoaded", function () {
             action: function () {
                 // Obtener el formulario por su ID
                 var form = document.getElementById('reporteForm');
-
+                // Cambiar la acción del formulario a generar PDF
+                form.action = APP_URL + "reportes/generarPdf";
                 // Enviar el formulario
                 form.submit();
             }
         },
         {
-            extend: 'excelHtml5',
-            text: '<button class="btn btn-success"><i class="fa fa-file-excel"></i></button>',
-            className: 'btn btn-success'
+            text: '<button id="excelButton" class="btn btn-success"><i class="fa fa-file-excel"></i></button>',
+            action: function () {
+                // Obtener el formulario por su ID
+                var form = document.getElementById('reporteForm');
+                // Cambiar la acción del formulario a generar Excel
+                form.action = APP_URL + "reportes/generarXls";
+                // Enviar el formulario
+                form.submit();
+            }
         }
         ]
     });
