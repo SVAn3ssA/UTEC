@@ -12,7 +12,7 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
     <div class="container d-flex justify-content-center align-items-center">
-        <form id="reporteForm" action="<?php echo APP_URL; ?>reportes/generarPdf" method="POST" target="_blank" class="w-100">
+        <form id="reporteForm"  method="POST" target="_blank" class="w-100">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
