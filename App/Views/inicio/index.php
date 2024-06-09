@@ -10,7 +10,11 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="espacio"></div>
 
-    <h5 class="nombre-lab text-center">Laboratorio: <?php echo $_SESSION['no_laboratorio'];?></h5>
+    <?php 
+    if ($_SESSION['privilegio'] != 1) {
+    echo '<h5 class="nombre-lab text-center">Laboratorio: ' . $_SESSION['no_laboratorio'] . '</h5>';
+    }
+    ?>
     <div class="contenedor">
         <div class="left-column">
             <div class="form-container">

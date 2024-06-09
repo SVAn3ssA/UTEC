@@ -38,7 +38,7 @@ class AgregarUsuario extends controller
         $no_laboratorio = $_POST['laboratorio_usuario'];
 
         // Validaciones del lado del servidor
-        $mensajeError = $this->validarCampos($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
+        $mensajeError = $this->validarCampos($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio);
         if (!empty($mensajeError)) {
             echo json_encode($mensajeError, JSON_UNESCAPED_UNICODE);
             die();
@@ -58,11 +58,11 @@ class AgregarUsuario extends controller
     }
 
 
-    private function validarCampos($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio)
+    private function validarCampos($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio)
     {
         if (
             empty($nombres) || empty($apellidos) || empty($email) || empty($password) || empty($telefono) ||
-            empty($estado) || empty($id_privilegio) || empty($no_laboratorio)
+            empty($estado) || empty($id_privilegio)
         ) {
 
             return "Todos los campos son obligatorios";
