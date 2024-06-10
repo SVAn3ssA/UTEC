@@ -87,7 +87,6 @@ html {
 .btnnuevo {
     margin-left: 100px;
     width: 200px
-    
 }
 
 /*----------Pagina Inicio----------*/
@@ -98,14 +97,15 @@ html {
 
 .left-column {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     flex: 1;
-    max-width: 29%;
+    max-width: 30%;
     padding: 20px;
 }
 
 .form-container {
     display: flex;
+    flex-direction: column; /* Mantiene los formularios en línea vertical */
     gap: 10px;
     flex: 1;
     margin: 10px;
@@ -113,95 +113,76 @@ html {
 
 .right-column {
     flex: 1;
-    max-width: 40%;
     padding: 20px;
+    width: 100%; /* Ajusta el ancho según sea necesario */
+    display: flex;
+    justify-content: center; /* Centra las computadoras horizontalmente */
 }
 
 .computadoras {
     display: grid;
-    grid-template-columns: repeat(15, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Ajusta el número de columnas automáticamente */
     gap: 10px;
     width: 100%;
-    max-width: 90%; /* Ajusta el ancho máximo */
-    margin: 0 auto 0 auto; /* Centro automático horizontal */
-    margin-left: 24%; /* Mueve la cuadrícula más a la derecha */
-    justify-content: start; /* Alinea el contenido al inicio (izquierda) del contenedor */
+    padding: 0 10px; /* Ajusta el padding para espaciar las computadoras */
 }
 
 .computadora {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
+    align-items: center;
     text-align: center;
     padding: 5px;
-    border: 1px solid #ccc; /* Agrega un borde para visualización */
+    border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #f9f9f9; /* Color de fondo para visualización */
-    font-size: 0.8rem; /* Ajusta el tamaño de la fuente */
+    background-color: #f9f9f9;
+    font-size: 0.8rem;
 }
 
 @media (max-width: 1200px) {
     .computadoras {
-        grid-template-columns: repeat(10, 1fr);
-        max-width: 80%; /* Ajusta el ancho máximo */
-        margin-left: 20%; /* Mueve la cuadrícula más a la derecha en pantallas medianas */
+        grid-template-columns: repeat(auto-fill, minmax(10, 1fr));
     }
 }
 
 @media (max-width: 768px) {
     .computadoras {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(5, 1fr));
         gap: 5px;
-        max-width: 70%; /* Ajusta el ancho máximo */
-        margin-left: 0; /* Sin margen izquierdo adicional en pantallas pequeñas */
     }
     
     .computadora {
         padding: 3px;
-        font-size: 0.7rem; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+        font-size: 0.7rem;
+    }
+
+    .left-column {
+        max-width: 100%; /* Los formularios ocupan todo el ancho en pantallas pequeñas */
     }
 }
 
-
 .cuadro {
     width: 20px;
-    /* Tamaño más pequeño */
     height: 20px;
-    /* Tamaño más pequeño */
     background-color: gray;
-    /* Puedes cambiar el color según tus necesidades */
     margin-bottom: 5px;
-    /* Ajusta el margen inferior para separar los cuadros */
 }
 
 .etiqueta {
     font-size: 10px;
-    /* Tamaño de fuente normal */
     width: 40px;
-    /* Ancho fijo para asegurar que el texto esté en una sola línea */
     white-space: nowrap;
-    /* Evita que el texto se envuelva a la siguiente línea */
     overflow: hidden;
-    /* Oculta cualquier exceso de texto que no quepa */
     text-overflow: ellipsis;
-    /* Muestra puntos suspensivos (...) si el texto es demasiado largo */
     text-align: center;
-    /* Centra el texto horizontalmente */
 }
 
-.form-group {
-    margin-bottom: 10px;
-}
 
 .espacio {
     margin-top: 80px;
-    /* Ajusta este valor según la altura de tu menú de navegación */
-
 }
 
 .espacio2 {
     margin-top: 10px;
-    /* Ajusta este valor según la altura de tu menú de navegación */
     padding: 2%;
 }
-
