@@ -18,45 +18,32 @@
     <div class="contenedor">
         <div class="left-column">
             <div class="form-container">
-                <form id="buscarForm" class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Ingrese carnet:</label>
-                        <input class="form-control" type="text" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Buscar">
-                        <button type="button" class="btn btn-warning" id="cancelarBusqueda">Cancelar</button>
-                    </div>
-                </form>
-                <form method="post" id="frmdatosprestamo" class="col-md-6" onsubmit="registrarTiempo(event)">
-                    <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
-                    <div class="form-group">
-                        <label class="form-label">No. PC</label>
-                        <input type="text" class="form-control" id="noPc" name="noPc" required>
-                    </div>
-                    <div class="form-group">
-                        <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>
-                    </div>
-                </form>
+                <div style="display: flex;">
+                    <form id="buscarForm" class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Carnet</label>
+                            <input class="form-control" type="text" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value=" Buscar  ">
+                            <button type="button" class="btn btn-warning" id="cancelarBusqueda">Cancelar</button>
+                        </div>
+                    </form>
+
+                    <form method="post" id="frmdatosprestamo" class="col-md-6" onsubmit="registrarTiempo(event)">
+                        <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+                        <div class="form-group">
+                            <label class="form-label">No. PC</label>
+                            <input type="text" class="form-control" id="noPc" name="noPc" required>
+                        </div>
+                        <div class="form-group">
+                            <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="resultsTable" style="display: none;">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Carne</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Carrera</th>
-                            <th>Facultad</th>
-                            <th>Teléfono</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsBody">
-                        <!-- Aquí irán los datos de la tabla -->
-                    </tbody>
-                </table>
-            </div>
+
         </div>
         <div class="right-column">
             <div class="computadoras" id="computadoras">
@@ -72,7 +59,24 @@
             </div>
         </div>
     </div>
-
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="resultsTable" style="display: none;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Carne</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Carrera</th>
+                    <th>Facultad</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- Aquí irán los datos de la tabla -->
+            </tbody>
+        </table>
+    </div>
     <div class="espacio2">
         <div class="table-responsive">
             <table id="registrosTable" class="table display nowrap table-bordered" style="width:100%">
