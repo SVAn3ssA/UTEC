@@ -186,3 +186,11 @@ html {
     margin-top: 10px;
     padding: 2%;
 }
+
+.formulario {
+    margin-bottom: 20px; /* Margen inferior para separar los formularios */
+}
+
+.formulario .form-group {
+    margin-bottom: 15px; /* Margen inferior para separar los elementos dentro del formulario */
+}

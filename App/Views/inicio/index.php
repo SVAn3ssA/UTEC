@@ -10,41 +10,39 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="espacio"></div>
 
-    <?php 
+    <?php
     if ($_SESSION['privilegio'] != 1) {
-    echo '<h5 class="nombre-lab text-center">Laboratorio: ' . $_SESSION['no_laboratorio'] . '</h5>';
+        echo '<h5 class="nombre-lab text-center">Laboratorio: ' . $_SESSION['no_laboratorio'] . '</h5>';
     }
     ?>
     <div class="contenedor">
-        <div class="left-column">
-            <div class="form-container">
-                <div style="display: flex;">
-                    <form id="buscarForm" class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Carnet</label>
-                            <input class="form-control" type="text" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary" value=" Buscar  ">
-                            <button type="button" class="btn btn-warning" id="cancelarBusqueda">Cancelar</button>
-                        </div>
-                    </form>
-
-                    <form method="post" id="frmdatosprestamo" class="col-md-6" onsubmit="registrarTiempo(event)">
-                        <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
-                        <div class="form-group">
-                            <label class="form-label">No. PC</label>
-                            <input type="text" class="form-control" id="noPc" name="noPc" required>
-                        </div>
-                        <div class="form-group">
-                            <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>
-                        </div>
-                    </form>
-                </div>
-
+    <div class="left-column">
+    <div class="form-container">
+        <form id="buscarForm" class="formulario">
+            <div class="form-group">
+                <label class="form-label">Carnet</label>
+                <input class="form-control" type="text" style="width: 200px;" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
             </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Buscar">
+                <button type="button" class="btn btn-warning" id="cancelarBusqueda">Cancelar</button>
+            </div>
+        </form>
 
-        </div>
+        <form method="post" id="frmdatosprestamo" class="formulario" onsubmit="registrarTiempo(event)">
+            <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+            <div class="form-group">
+                <label class="form-label">No. PC</label>
+                <input type="text" class="form-control" id="noPc" name="noPc" style="width: 200px;" required>
+            </div>
+            <div class="form-group">
+                <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
         <div class="right-column">
             <div class="computadoras" id="computadoras">
                 <?php
@@ -59,11 +57,11 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="resultsTable" style="display: none;">
+    <div class="container d-flex justify-content-center">
+        <table class="table table-striped table-bordered text-center" id="resultsTable" style="display: none;">
             <thead class="thead-dark">
                 <tr>
-                    <th>Carne</th>
+                    <th>Carnet</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Carrera</th>
@@ -77,6 +75,7 @@
             </tbody>
         </table>
     </div>
+
     <div class="espacio2">
         <div class="table-responsive">
             <table id="registrosTable" class="table display nowrap table-bordered" style="width:100%">
