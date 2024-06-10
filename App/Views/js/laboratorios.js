@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         columns: [
             { data: "no_laboratorio", searchable: true, className: "text-center" },
             { data: "no_pc", searchable: true, className: "text-center" },
+            { data: "Encargado", searchable: true, className: "text-center" },
             { data: "descripcion", searchable: true, className: "text-center" },
             { data: "programas", searchable: true, className: "text-center" },
             { data: "estado", searchable: true, className: "text-center" },

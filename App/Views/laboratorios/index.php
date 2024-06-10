@@ -76,6 +76,7 @@
                 <tr>
                     <th>No. Laboratorio</th>
                     <th>No. Pc</th>
+                    <th>Encargado</th>
                     <th>Descripción</th>
                     <th>Programas</th>
                     <th>Estado</th>
