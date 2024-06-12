@@ -194,3 +194,11 @@ html {
 .formulario .form-group {
     margin-bottom: 15px; /* Margen inferior para separar los elementos dentro del formulario */
 }
+
+footer {
+    padding: 10px 0;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
