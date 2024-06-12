@@ -89,7 +89,7 @@ class ListaUsuarios extends controller
         if (
             empty($_POST['id']) || empty($_POST['nombres_usuario']) || empty($_POST['apellidos_usuario']) ||
             empty($_POST['email_usuario']) || empty($_POST['telefono_usuario']) || !isset($_POST['estado_usuario']) ||
-            empty($_POST['privilegio_usuario']) || empty($_POST['laboratorio_usuario'])
+            empty($_POST['privilegio_usuario'])
         ) {
             return "Todos los campos son obligatorios";
         }

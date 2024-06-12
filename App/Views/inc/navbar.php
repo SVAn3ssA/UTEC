@@ -8,15 +8,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <?php if ($_SESSION['privilegio'] == 1): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Usuarios
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a></li>
-                        <li><a class="dropdown-item" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a></li>
-                    </ul>
-                </li>
+                
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a>
+                    </li>
                 <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
