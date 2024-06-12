@@ -12,19 +12,37 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
     <div class="container d-flex justify-content-center align-items-center">
-        <form id="reporteForm"  method="POST" target="_blank" class="w-100">
+        <form id="reporteForm" method="POST" target="_blank" class="w-100">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="tipo_reporte">Tipo de Reporte por:</label>
+                        <label for="tipo_reporte">Tipo de Reporte:</label>
                         <select name="tipo_reporte" id="tipo_reporte" class="form-control" onchange="toggleInputs()">
                             <option value="rango">Rango de Fechas</option>
-                            <option value="anio">Por Año</option>
+                            <option value="anio">Año</option>
                             <option value="ciclo">Ciclo</option>
-                            <option value="dia">Por Día</option>
+                            <option value="dia">Día</option>
+                            <option value="general">General</option>
                         </select>
                     </div>
-                    <div class="form-group">
+
+                    <div class="row">
+                        <!-- Segunda lista desplegable -->
+                        <div id="lista_general" style="display: none;">
+                            <div class="form-group">
+                                <label for="otra_lista">Por:</label>
+                                <select name="otra_lista" id="otra_lista" class="form-control" onchange="toggleOtraLista()">
+                                    <option value="rango">Rango de Fechas</option>
+                                    <option value="anio">Año</option>
+                                    <option value="ciclo">Ciclo</option>
+                                    <option value="dia">Día</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" id="numero_laboratorio_group">
                         <label for="numero_laboratorio">Número de Laboratorio</label>
                         <?php if ($_SESSION['privilegio'] == 1) : ?>
                             <!-- Si el usuario tiene privilegio 1, se muestra un input editable -->
@@ -34,6 +52,7 @@
                             <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>" readonly>
                         <?php endif; ?>
                     </div>
+
                 </div>
                 <div class="col-md-3" id="fecha_rango">
                     <div class="form-group">
@@ -79,7 +98,7 @@
 
     <div class="card my-2">
         <div class="card">
-            <div class="card-header bg-dark text-white text-center" >
+            <div class="card-header bg-dark text-white text-center">
                 Historial de prácticas libres en laboratorios de informática
             </div>
         </div>
@@ -104,8 +123,9 @@
             </div>
         </div>
     </div>
+
     <?php require_once "./app/views/inc/script.php"; ?>
-    
+
 </body>
 
 </html>
