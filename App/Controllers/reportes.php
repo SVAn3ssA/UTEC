@@ -100,6 +100,8 @@ class reportes extends controller
                 } else {
                     $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, null, null, $dia);
                 }
+            } elseif ($tipo_reporte == 'general') {
+                $resultado = $this->modelo->reporteGeneral($tipo_reporte);
             } else {
                 throw new Exception("Tipo de reporte no válido.");
             }
@@ -129,6 +131,8 @@ class reportes extends controller
                 $titulo_reporte = 'Reporte Historial - Por Ciclo ' . $ciclo . ' año ' . $anio;
             } elseif ($tipo_reporte == 'dia') {
                 $titulo_reporte = 'Reporte Historial - Por Día ' . $dia;
+            } elseif ($tipo_reporte == 'general') {
+                $titulo_reporte = 'Reporte General - Por Laboratorios';
             }
 
             // Codificamos el título correctamente antes de establecerlo en el PDF
@@ -151,39 +155,65 @@ class reportes extends controller
             // Convertir la hora actual al formato de hora normal (12 horas)
             $normalTime = date('h:i:s', strtotime(date('H:i:s')));
 
-            $pdf->Cell(55, 10, 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime . ' ' . $am_pm, 0, 1, 'C');
+            $pdf->Cell(64, 10, 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime . ' ' . $am_pm, 0, 1, 'C');
 
             $pdf->Cell(0, 10, 'Encargado de laboratorio: ' . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
             $pdf->Cell(0, 10, 'Correo: ' . $email, 0, 1);
             // Mostrar el total de registros
-            $pdf->Cell(0, 10, 'Total de registros: ' . count($resultado), 0, 1);
+            // Contar el total de registros
+            $total_registros = 0;
+            foreach ($resultado as $row) {
+                $total_registros += $row['total_registros'];
+            }
+
+            // Mostrar el total de registros
+            $pdf->Cell(0, 10, 'Total de registros: ' . $total_registros, 0, 1, 'L');
             $pdf->Ln();
 
-            // Colores para la tabla
-            $pdf->SetFillColor(211, 211, 211); // Color gris claro para el encabezado
-            $pdf->SetTextColor(0, 0, 0); // Color negro para el texto
+            if ($tipo_reporte == 'general') {
+                // Colores para la tabla
+                $pdf->SetFillColor(211, 211, 211); // Color gris claro para el encabezado
+                $pdf->SetTextColor(0, 0, 0); // Color negro para el texto
 
-            // Encabezados de la tabla
-            $pdf->SetFont('Arial', 'B', 10);
-            $pdf->Cell(30, 10, mb_convert_encoding('Carnet', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
-            $pdf->Cell(40, 10, mb_convert_encoding('Fecha y Hora', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
-            $pdf->Cell(30, 10, mb_convert_encoding('Tiempo', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
-            $pdf->Cell(50, 10, mb_convert_encoding('Observación', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
-            $pdf->Cell(20, 10, mb_convert_encoding('Laboratorio', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
-            $pdf->Cell(20, 10, mb_convert_encoding('Pc', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', true);
+                // Encabezados de la tabla
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(60, 10, mb_convert_encoding('Número de Laboratorio', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(60, 10, mb_convert_encoding('Total de Registros', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', true);
 
-            // Datos de la tabla
-            $pdf->SetFont('Arial', '', 10);
-            $fill = false;
-            foreach ($resultado as $row) {
-                $pdf->SetFillColor(240, 240, 240); // Color gris más claro para las filas alternadas
-                $pdf->Cell(30, 10, mb_convert_encoding($row['carnet'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                $pdf->Cell(40, 10, mb_convert_encoding($row['fechahora'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                $pdf->Cell(30, 10, mb_convert_encoding($row['tiempo'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                $pdf->Cell(50, 10, mb_convert_encoding($row['observacion'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                $pdf->Cell(20, 10, mb_convert_encoding($row['no_laboratorio'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                $pdf->Cell(20, 10, mb_convert_encoding($row['no_pc'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', $fill);
-                $fill = !$fill;
+                // Datos de la tabla
+                $pdf->SetFont('Arial', '', 10);
+                $fill = false;
+                foreach ($resultado as $row) {
+                    $pdf->SetFillColor(240, 240, 240); // Color gris más claro para las filas alternadas
+                    $pdf->Cell(60, 10, mb_convert_encoding($row['no_laboratorio'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(60, 10, mb_convert_encoding($row['total_registros'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', $fill);
+                    $fill = !$fill;
+                }
+            } else {
+
+
+                // Encabezados de la tabla
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(30, 10, mb_convert_encoding('Carnet', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(40, 10, mb_convert_encoding('Fecha y Hora', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(30, 10, mb_convert_encoding('Tiempo', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(50, 10, mb_convert_encoding('Observación', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(20, 10, mb_convert_encoding('Laboratorio', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
+                $pdf->Cell(20, 10, mb_convert_encoding('Pc', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', true);
+
+                // Datos de la tabla
+                $pdf->SetFont('Arial', '', 10);
+                $fill = false;
+                foreach ($resultado as $row) {
+                    $pdf->SetFillColor(240, 240, 240); // Color gris más claro para las filas alternadas
+                    $pdf->Cell(30, 10, mb_convert_encoding($row['carnet'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(40, 10, mb_convert_encoding($row['fechahora'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(30, 10, mb_convert_encoding($row['tiempo'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(50, 10, mb_convert_encoding($row['observacion'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(20, 10, mb_convert_encoding($row['no_laboratorio'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
+                    $pdf->Cell(20, 10, mb_convert_encoding($row['no_pc'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', $fill);
+                    $fill = !$fill;
+                }
             }
 
             $pdf->Output();
