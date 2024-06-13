@@ -22,7 +22,9 @@
                             <option value="anio">Año</option>
                             <option value="ciclo">Ciclo</option>
                             <option value="dia">Día</option>
+                            <?php if ($_SESSION['privilegio'] == 1): ?>
                             <option value="general">General</option>
+                            <?php endif; ?>
                         </select>
                     </div>
 

@@ -329,7 +329,27 @@ document.getElementById('numero_laboratorio').addEventListener('keypress', funct
     }
 });
 
+function generarReporte(event) {
+    event.preventDefault();
 
+    const url = APP_URL + "inicio/generarReporte";
+    const frm = document.getElementById("formReporte");
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            if (res.status === 'error') {
+                alert(res.message); // Mostrar el mensaje de error en una ventana emergente
+            } else {
+                // Manejar el éxito del reporte aquí
+                console.log(res.data);
+            }
+        }
+    }
+}
 
 
 
