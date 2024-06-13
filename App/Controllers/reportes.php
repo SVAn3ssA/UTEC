@@ -56,10 +56,12 @@ class reportes extends controller
             $numero_laboratorio = isset($_POST['numero_laboratorio']) ? $_POST['numero_laboratorio'] : null;
             $ciclo = isset($_POST['ciclo']) ? $_POST['ciclo'] : null;
             $dia = isset($_POST['dia']) ? $_POST['dia'] : null;
+            $otra_lista = isset($_POST['otra_lista']) ? $_POST['otra_lista'] : null;
 
             $resultado = null; // Inicializamos $resultado con un valor nulo
 
-            // Llamamos al modelo para obtener el resultado según el tipo de reporte seleccionado
+
+
             if ($tipo_reporte == 'anio') {
                 if (empty($anio)) {
                     throw new Exception("El año es obligatorio para el reporte por año.");
@@ -101,7 +103,28 @@ class reportes extends controller
                     $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, null, null, $dia);
                 }
             } elseif ($tipo_reporte == 'general') {
-                $resultado = $this->modelo->reporteGeneral($tipo_reporte);
+                if ($otra_lista == 'anio') {
+                    if (empty($anio)) {
+                        throw new Exception("El año es obligatorio para el reporte por año.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, $anio, null, null, null);
+                } elseif ($otra_lista == 'rango') {
+                    if (empty($desde) || empty($hasta)) {
+                        throw new Exception("Las fechas 'desde' y 'hasta' son obligatorias para el reporte por rango.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, $desde, $hasta, null, null, null, null);
+                } elseif ($otra_lista == 'dia') {
+                    if (empty($dia)) {
+                        throw new Exception("El día es obligatorio para el reporte por día.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, null, null, $dia);
+                } elseif ($otra_lista == 'ciclo') {
+                    if (empty($ciclo) || empty($anio)) {
+                        throw new Exception("El ciclo y el año son obligatorios para el reporte por ciclo.");
+                    }
+
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, $anio, null, $ciclo);
+                }
             } else {
                 throw new Exception("Tipo de reporte no válido.");
             }
@@ -132,7 +155,22 @@ class reportes extends controller
             } elseif ($tipo_reporte == 'dia') {
                 $titulo_reporte = 'Reporte Historial - Por Día ' . $dia;
             } elseif ($tipo_reporte == 'general') {
+                // Título general base
                 $titulo_reporte = 'Reporte General - Por Laboratorios';
+
+                // Subfiltros dentro del reporte general
+                if (!empty($anio)) {
+                    $titulo_reporte .= ' Año ' . $anio;
+                }
+                if (!empty($desde) && !empty($hasta)) {
+                    $titulo_reporte .= ' Rango de Fechas desde ' . $desde . ' hasta ' . $hasta;
+                }
+                if (!empty($ciclo) && !empty($anio)) {
+                    $titulo_reporte .= ' Ciclo ' . $ciclo;
+                }
+                if (!empty($dia)) {
+                    $titulo_reporte .= ' Día ' . $dia;
+                }
             }
 
             // Codificamos el título correctamente antes de establecerlo en el PDF
@@ -143,7 +181,6 @@ class reportes extends controller
             $pdf->SetMargins(10, 10, 10);
             $pdf->SetFont('Arial', '', 12);
             date_default_timezone_set("America/El_Salvador");
-
             $currentHour = date('H'); // Obtener la hora actual en formato de 24 horas
 
             if ($currentHour < 12) {
@@ -151,26 +188,33 @@ class reportes extends controller
             } else {
                 $am_pm = 'PM';
             }
-
             // Convertir la hora actual al formato de hora normal (12 horas)
             $normalTime = date('h:i:s', strtotime(date('H:i:s')));
 
             $pdf->Cell(64, 10, 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime . ' ' . $am_pm, 0, 1, 'C');
-
             $pdf->Cell(0, 10, 'Encargado de laboratorio: ' . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
             $pdf->Cell(0, 10, 'Correo: ' . $email, 0, 1);
-            // Mostrar el total de registros
-            // Contar el total de registros
-            $total_registros = 0;
-            foreach ($resultado as $row) {
-                $total_registros += $row['total_registros'];
-            }
 
-            // Mostrar el total de registros
-            $pdf->Cell(0, 10, 'Total de registros: ' . $total_registros, 0, 1, 'L');
-            $pdf->Ln();
+            // Inicializa la variable del total de registros
+            $total_registros_general = 0;
 
             if ($tipo_reporte == 'general') {
+                // Asume que $resultado ya contiene los datos obtenidos de la base de datos
+                // Suma los registros totales para el reporte general
+                foreach ($resultado as $row) {
+                    if (array_key_exists('total_registros', $row)) {
+                        $total_registros_general += $row['total_registros'];
+                    }
+                }
+            } else {
+                $total_registros_general = count($resultado);
+            }
+
+            // Mostrar el total de registros como un encabezado
+            $pdf->Cell(0, 10, 'Total de registros: ' . $total_registros_general, 0, 1);
+
+            if ($tipo_reporte == 'general') {
+
                 // Colores para la tabla
                 $pdf->SetFillColor(211, 211, 211); // Color gris claro para el encabezado
                 $pdf->SetTextColor(0, 0, 0); // Color negro para el texto
@@ -180,17 +224,25 @@ class reportes extends controller
                 $pdf->Cell(60, 10, mb_convert_encoding('Número de Laboratorio', 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', true);
                 $pdf->Cell(60, 10, mb_convert_encoding('Total de Registros', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', true);
 
-                // Datos de la tabla
                 $pdf->SetFont('Arial', '', 10);
                 $fill = false;
                 foreach ($resultado as $row) {
                     $pdf->SetFillColor(240, 240, 240); // Color gris más claro para las filas alternadas
                     $pdf->Cell(60, 10, mb_convert_encoding($row['no_laboratorio'], 'ISO-8859-1', 'UTF-8'), 0, 0, 'C', $fill);
-                    $pdf->Cell(60, 10, mb_convert_encoding($row['total_registros'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', $fill);
+
+                    // Verificar si existe la clave 'total_registros' en el array $row
+                    if (array_key_exists('total_registros', $row)) {
+                        $pdf->Cell(60, 10, mb_convert_encoding($row['total_registros'], 'ISO-8859-1', 'UTF-8'), 0, 1, 'C', $fill);
+                    } else {
+                        $pdf->Cell(60, 10, 'Sin datos', 1, 1, 'C', $fill); // Mostrar mensaje si no hay datos
+                    }
+
                     $fill = !$fill;
                 }
             } else {
-
+                // Colores para la tabla
+                $pdf->SetFillColor(211, 211, 211); // Color gris claro para el encabezado
+                $pdf->SetTextColor(0, 0, 0); // Color negro para el texto
 
                 // Encabezados de la tabla
                 $pdf->SetFont('Arial', 'B', 10);
@@ -232,6 +284,7 @@ class reportes extends controller
             $numero_laboratorio = isset($_POST['numero_laboratorio']) ? $_POST['numero_laboratorio'] : null;
             $ciclo = isset($_POST['ciclo']) ? $_POST['ciclo'] : null;
             $dia = isset($_POST['dia']) ? $_POST['dia'] : null;
+            $otra_lista = isset($_POST['otra_lista']) ? $_POST['otra_lista'] : null;
 
             $resultado = null;
 
@@ -271,6 +324,29 @@ class reportes extends controller
                     $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, $numero_laboratorio, null, $dia);
                 } else {
                     $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, null, null, $dia);
+                }
+            } elseif ($tipo_reporte == 'general') {
+                if ($otra_lista == 'anio') {
+                    if (empty($anio)) {
+                        throw new Exception("El año es obligatorio para el reporte por año.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, $anio, null, null, null);
+                } elseif ($otra_lista == 'rango') {
+                    if (empty($desde) || empty($hasta)) {
+                        throw new Exception("Las fechas 'desde' y 'hasta' son obligatorias para el reporte por rango.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, $desde, $hasta, null, null, null, null);
+                } elseif ($otra_lista == 'dia') {
+                    if (empty($dia)) {
+                        throw new Exception("El día es obligatorio para el reporte por día.");
+                    }
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, null, null, null, $dia);
+                } elseif ($otra_lista == 'ciclo') {
+                    if (empty($ciclo) || empty($anio)) {
+                        throw new Exception("El ciclo y el año son obligatorios para el reporte por ciclo.");
+                    }
+
+                    $resultado = $this->modelo->reporteGeneral($tipo_reporte, null, null, $anio, null, $ciclo);
                 }
             } else {
                 throw new Exception("Tipo de reporte no válido.");
@@ -353,6 +429,8 @@ class reportes extends controller
             $nombre_usuario = isset($_SESSION['nombres']) && isset($_SESSION['apellidos']) ? $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'] : 'Usuario Desconocido';
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Correo no disponible';
 
+            $titulo_reporte = '';
+
             if ($tipo_reporte == 'rango') {
                 $titulo_reporte = 'Reporte Historial - Rango de Fechas desde ' . $desde . ' hasta ' . $hasta;
             } elseif ($tipo_reporte == 'anio') {
@@ -361,6 +439,23 @@ class reportes extends controller
                 $titulo_reporte = 'Reporte Historial - Por Ciclo ' . $ciclo . ' año ' . $anio;
             } elseif ($tipo_reporte == 'dia') {
                 $titulo_reporte = 'Reporte Historial - Por Día ' . $dia;
+            } elseif ($tipo_reporte == 'general') {
+                // Título general base
+                $titulo_reporte = 'Reporte General - Por Laboratorios';
+
+                // Subfiltros dentro del reporte general
+                if (!empty($anio)) {
+                    $titulo_reporte .= ' Año ' . $anio;
+                }
+                if (!empty($desde) && !empty($hasta)) {
+                    $titulo_reporte .= ' Rango de Fechas desde ' . $desde . ' hasta ' . $hasta;
+                }
+                if (!empty($ciclo) && !empty($anio)) {
+                    $titulo_reporte .= ' Ciclo ' . $ciclo;
+                }
+                if (!empty($dia)) {
+                    $titulo_reporte .= ' Día ' . $dia;
+                }
             }
 
             // Añadir encabezados de reporte
@@ -392,35 +487,81 @@ class reportes extends controller
             $sheet->setCellValue('A7', 'Correo: ' . $email);
             $sheet->mergeCells('A7:F7');
 
-            $sheet->setCellValue('A8', 'Total de registros: ' . count($resultado));
-            $sheet->mergeCells('A8:F8');
+            // Inicializa la variable del total de registros
+            $total_registros_general = 0;
 
-            // Añadir los encabezados de columna y centrarlos
-            $columns = [
-                'Carnet', 'Fecha y Hora', 'Tiempo', 'Observacion', 'Laboratorio', 'Pc'
-            ];
-            $columnIndex = 'A';
-            $rowIndex = 10;
-            foreach ($columns as $column) {
-                $sheet->setCellValue($columnIndex . $rowIndex, $column);
-                $sheet->getColumnDimension($columnIndex)->setAutoSize(true);
-                $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($headerStyle);
-                // Centrar los encabezados de columna
-                $sheet->getStyle($columnIndex . $rowIndex)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-                $columnIndex++;
+            if ($tipo_reporte == 'general') {
+                // Asume que $resultado ya contiene los datos obtenidos de la base de datos
+                // Suma los registros totales para el reporte general
+                foreach ($resultado as $row) {
+                    if (array_key_exists('total_registros', $row)) {
+                        $total_registros_general += $row['total_registros'];
+                    }
+                }
+            } else {
+                $total_registros_general = count($resultado);
             }
 
-            // Añadir los datos
-            $rowIndex = 11;
-            foreach ($resultado as $row) {
+            $sheet->setCellValue('A8', 'Total de registros: ' . $total_registros_general);
+            $sheet->mergeCells('A8:F8');
+
+            if ($tipo_reporte == 'general') {
+                // Añadir los encabezados de columna y centrarlos
+                $columns = [
+                    'Número de Laboratorio', 'Total de Registros'
+                ];
+
                 $columnIndex = 'A';
-                // Saltar la primera columna de contador y ajustar el bucle para que empiece desde el índice correcto
-                foreach (array_slice($row, 1) as $cell) {
-                    $sheet->setCellValue($columnIndex . $rowIndex, $cell);
-                    $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($dataStyle);
+                $rowIndex = 10;
+                foreach ($columns as $column) {
+                    $sheet->setCellValue($columnIndex . $rowIndex, $column);
+                    $sheet->getColumnDimension($columnIndex)->setAutoSize(true);
+                    $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($headerStyle);
+                    // Centrar los encabezados de columna
+                    $sheet->getStyle($columnIndex . $rowIndex)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                     $columnIndex++;
                 }
-                $rowIndex++;
+
+                // Añadir los datos
+                $rowIndex = 11;
+                foreach ($resultado as $row) {
+                    $columnIndex = 'A';
+                    // Saltar la primera columna de contador y ajustar el bucle para que empiece desde el índice correcto
+                    foreach ($row as $cell) {
+                        $sheet->setCellValue($columnIndex . $rowIndex, $cell);
+                        $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($dataStyle);
+                        $columnIndex++;
+                    }
+                    $rowIndex++;
+                }
+            } else {
+                // Añadir los encabezados de columna y centrarlos
+                $columns = [
+                    'Carnet', 'Fecha y Hora', 'Tiempo', 'Observacion', 'Laboratorio', 'Pc'
+                ];
+                $columnIndex = 'A';
+                $rowIndex = 10;
+                foreach ($columns as $column) {
+                    $sheet->setCellValue($columnIndex . $rowIndex, $column);
+                    $sheet->getColumnDimension($columnIndex)->setAutoSize(true);
+                    $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($headerStyle);
+                    // Centrar los encabezados de columna
+                    $sheet->getStyle($columnIndex . $rowIndex)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                    $columnIndex++;
+                }
+
+                // Añadir los datos
+                $rowIndex = 11;
+                foreach ($resultado as $row) {
+                    $columnIndex = 'A';
+                    // Saltar la primera columna de contador y ajustar el bucle para que empiece desde el índice correcto
+                    foreach (array_slice($row, 1) as $cell) {
+                        $sheet->setCellValue($columnIndex . $rowIndex, $cell);
+                        $sheet->getStyle($columnIndex . $rowIndex)->applyFromArray($dataStyle);
+                        $columnIndex++;
+                    }
+                    $rowIndex++;
+                }
             }
 
             $writer = new Xlsx($spreadsheet);
