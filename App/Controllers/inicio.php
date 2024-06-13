@@ -40,10 +40,10 @@ class inicio extends controller
                     $_SESSION['email'] = $data['email'];
                     $_SESSION['no_laboratorio'] = $data['no_laboratorio'];
                     $_SESSION['privilegio'] = $data['id_privilegio'];
-            
+
                     // Depuración: Verificar datos del usuario
                     error_log("Usuario autenticado: " . json_encode($data));
-            
+
                     // Verificar si el usuario tiene un número de laboratorio asignado
                     if ($_SESSION['no_laboratorio'] != 0) {
                         // Obtener el número de PCs del laboratorio
@@ -61,12 +61,14 @@ class inicio extends controller
                         $mensaje = "Ok";
                     }
                 }
+            } else {
+                $mensaje = "Email o contraseña incorrectos";
             }
-            
         }
         echo json_encode($mensaje);
         die();
     }
+
 
 
 
