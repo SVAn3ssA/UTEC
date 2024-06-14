@@ -139,6 +139,7 @@ class reportes extends controller
             // Obtén el nombre completo del usuario desde la sesión
             $nombre_usuario = isset($_SESSION['nombres']) && isset($_SESSION['apellidos']) ? $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'] : 'Usuario Desconocido';
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Correo no disponible';
+            $privilegio = $_SESSION['privilegio'];
 
             $pdf = new pdf();
 
@@ -192,7 +193,18 @@ class reportes extends controller
             $normalTime = date('h:i:s', strtotime(date('H:i:s')));
 
             $pdf->Cell(64, 10, 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime . ' ' . $am_pm, 0, 1, 'C');
-            $pdf->Cell(0, 10, 'Encargado de laboratorio: ' . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
+            // Verificar el tipo de privilegio y ajustar el texto en consecuencia
+            if ($privilegio == 1) {
+                $texto = 'Creado por: ';
+            } else if ($privilegio == 2) {
+                $texto = 'Encargado de laboratorio: ';
+            } else {
+                // Puedes agregar más condiciones para otros privilegios si es necesario
+                $texto = 'Usuario: ';
+            }
+
+            // Imprimir la celda con el texto correspondiente
+            $pdf->Cell(0, 10, $texto . mb_convert_encoding($nombre_usuario, 'ISO-8859-1', 'UTF-8'), 0, 1);
             $pdf->Cell(0, 10, 'Correo: ' . $email, 0, 1);
 
             // Inicializa la variable del total de registros
@@ -367,7 +379,7 @@ class reportes extends controller
             $sheet->setCellValue('A1', ''); // Puede ser útil agregar un valor en la celda, aunque esté vacío
 
             // Insertar la imagen en la celda A1
-            $logoPath = 'App/Views/images/logo_utec_solo_letras.png';
+            $logoPath = 'App/images/logo_utec_solo_letras.png';
             $logoDrawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
             $logoDrawing->setName('Logo');
             $logoDrawing->setDescription('Logo UTEC');
@@ -428,6 +440,7 @@ class reportes extends controller
             // Obtener el nombre completo del usuario desde la sesión
             $nombre_usuario = isset($_SESSION['nombres']) && isset($_SESSION['apellidos']) ? $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'] : 'Usuario Desconocido';
             $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'Correo no disponible';
+            $privilegio = $_SESSION['privilegio'];
 
             $titulo_reporte = '';
 
@@ -479,9 +492,17 @@ class reportes extends controller
 
             $sheet->setCellValue('A5', 'Fecha: ' . date('Y-m-d') . ' ' . $normalTime);
             $sheet->mergeCells('A5:F5');
+            // Verificar el tipo de privilegio y ajustar el texto en consecuencia
+            if ($privilegio == 1) {
+                $texto = 'Creado por: ';
+            } else if ($privilegio == 2) {
+                $texto = 'Encargado de laboratorio: ';
+            } else {
+                // Puedes agregar más condiciones para otros privilegios si es necesario
+                $texto = 'Usuario: ';
+            }
 
-
-            $sheet->setCellValue('A6', 'Encargado de laboratorio: ' . $nombre_usuario);
+            $sheet->setCellValue('A6', $texto . $nombre_usuario);
             $sheet->mergeCells('A6:F6');
 
             $sheet->setCellValue('A7', 'Correo: ' . $email);
@@ -563,6 +584,10 @@ class reportes extends controller
                     $rowIndex++;
                 }
             }
+
+            // Proteger la hoja para que no se pueda editar
+            $sheet->getProtection()->setSheet(true);
+            $sheet->getProtection()->setPassword('your_password_here');
 
             $writer = new Xlsx($spreadsheet);
             $fileName = 'reporte_historial.xlsx';

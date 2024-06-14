@@ -7,16 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
             dataSrc: ''
         },
         columns: [
-            { data: "no_laboratorio", searchable: true, className: "text-center" },
-            { data: "no_pc", searchable: true, className: "text-center" },
+            { data: "no_laboratorio", searchable: false, className: "text-center" },
+            { data: "no_pc", searchable: false, className: "text-center" },
             { data: "Encargado", searchable: true, className: "text-center" },
-            { data: "descripcion", searchable: true, className: "text-center" },
-            { data: "programas", searchable: true, className: "text-center" },
-            { data: "estado", searchable: true, className: "text-center" },
+            { data: "descripcion", searchable: false, className: "text-center" },
+            { data: "programas", searchable: false, className: "text-center" },
+            { data: "estado", searchable: false, className: "text-center" },
             { data: "acciones", className: "text-center" },
         ],
         columnDefs: [{
-            "targets": [0, 1, 2, 3, 4],
+            "targets": [0, 1, 2, 3, 4,5,6],
             "orderable": false,
         }],
         language: {

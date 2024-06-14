@@ -11,13 +11,13 @@
 
 
     <!-- Estilos-->
-    <link rel="stylesheet" href="App/Views/css/estilos.css">
+    <link rel="stylesheet" href="App/css/estilos.css">
 </head>
 
 <body class="login-page">
     <div class="login-contenedor">
         <div class="login-contenido">
-            <img src="<?php echo APP_URL; ?>App/Views/images/logo_utec_solo_letras.png" class="imagen" alt="Logo">
+            <img src="<?php echo APP_URL; ?>App/images/logo_utec_solo_letras.png" class="imagen" alt="Logo">
             <p class="text-center">
                 Iniciar sesión
             </p>
@@ -41,7 +41,7 @@
         const APP_URL="<?php echo APP_URL; ?>";
     </script>
     <!---FUNCIONES--->
-    <script src="<?php echo APP_URL; ?>app/views/js/funciones.js"></script>
+    <script src="<?php echo APP_URL; ?>app/js/funciones.js"></script>
 </body>
 
 </html>

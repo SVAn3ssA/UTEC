@@ -16,7 +16,7 @@ class pdf extends FPDF
     {
         // Encabezado del PDF
         $imageWidth = 100; // Ancho de la imagen
-        $this->Image('App/Views/images/logo_utec_solo_letras.png', ($this->GetPageWidth() - $imageWidth) / 2, 10, $imageWidth);
+        $this->Image('App/images/logo_utec_solo_letras.png', ($this->GetPageWidth() - $imageWidth) / 2, 10, $imageWidth);
         $this->Ln(23); // Dejamos un espacio después de la imagen
         $this->SetFont('Arial', 'B', 12); // Establecemos la fuente regular
         $this->Cell(0, 10, 'UNIDAD DE APOYO TECNICO ' , 0, 1, 'C');

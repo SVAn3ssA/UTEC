@@ -70,4 +70,13 @@ class AgregarUsuarioModel extends Conexion
             return "Error de base de datos";
         }
     }
+
+    public function verificarLaboratorio($no_laboratorio)
+    {
+        $sql = "SELECT * FROM usuarios WHERE no_laboratorio = :no_laboratorio";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bindParam(':no_laboratorio', $no_laboratorio, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

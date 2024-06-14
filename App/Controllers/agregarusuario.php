@@ -44,6 +44,12 @@ class AgregarUsuario extends controller
             die();
         }
 
+        $laboratorioExistente = $this->modelo->verificarLaboratorio($no_laboratorio);
+        if ($laboratorioExistente) {
+            echo json_encode("El número de laboratorio ya está en uso", JSON_UNESCAPED_UNICODE);
+            die();
+        }
+
         $resultados = $this->modelo->insertarUsuario($nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
 
         if ($resultados === "OK") {

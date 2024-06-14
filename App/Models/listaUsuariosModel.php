@@ -109,4 +109,20 @@ class ListaUsuariosModel extends conexion
             return false;
         }
     }
+
+    public function obtenerNumeroPCs($no_laboratorio)
+    {
+        try {
+            // Consulta SQL para obtener el número de PCs en el laboratorio dado
+            $consulta = "SELECT no_pc from laboratorios where no_laboratorio = :no_laboratorio";
+            $stmt = $this->con->prepare($consulta);
+            $stmt->bindParam(":no_laboratorio", $no_laboratorio, PDO::PARAM_INT);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $resultado['no_pc'];
+        } catch (PDOException $e) {
+            echo "Error de base de datos: " . $e->getMessage();
+        }
+    }
 }

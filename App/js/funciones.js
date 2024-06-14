@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { data: "no_pc", searchable: false, className: "text-center" },
         ],
         columnDefs: [{
-            targets: [0, 1, 2, 3, 4], orderable: false
+            targets: [0, 1, 2, 3, 4, 5], orderable: false
         }],
         language: {
             decimal: "",

@@ -69,11 +69,19 @@ class ListaUsuarios extends controller
         $id_privilegio = $_POST['privilegio_usuario'];
         $no_laboratorio = $_POST['laboratorio_usuario'];
 
+        // Obtener la cantidad de PCs en el nuevo laboratorio
+        $no_pc = $this->modelo->obtenerNumeroPCs($no_laboratorio);
+
         // Llamar al método para modificar el usuario
         $resultados = $this->modelo->modificarUsuario($id_usuario, $nombres, $apellidos, $email, $password, $telefono, $estado, $id_privilegio, $no_laboratorio);
 
         // Enviar el mensaje de resultado al cliente
         if ($resultados) {
+            // Actualizar la variable de sesión con el número de laboratorio y número de PCs
+            $_SESSION['no_laboratorio'] = $no_laboratorio;
+            $_SESSION['no_pc'] = $no_pc;
+
+            // Redirigir o devolver el mensaje de éxito según sea necesario
             $mensaje = "MODIFICADO";
         } else {
             $mensaje = "El correo electrónico ya está en uso por otro usuario";

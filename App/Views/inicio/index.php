@@ -13,7 +13,7 @@
     <?php
     if ($_SESSION['privilegio'] == 1 && $_SESSION['no_laboratorio'] == 0) {
         echo '<div class="text-center mt-4">
-                <img src="App/Views/images/Temaletras.png" alt="Temas Letras" style="width: 65%;">
+                <img src="App/images/Temaletras.png" alt="Temas Letras" style="width: 65%;">
                 </div>';
     } else {
     ?>
