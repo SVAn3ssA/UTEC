@@ -10,8 +10,11 @@
 
 <body>
     <?php require_once "./App/Views/inc/navbar.php"; ?>
-
+    
     <div class="contenido d-flex justify-content-center"></div>
+    <div class=" text-center mb-3">
+        <h3>Lista de usuarios</h3>
+    </div>
     
     <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
         <table id="lista" class="display nowrap" style="width:100%">

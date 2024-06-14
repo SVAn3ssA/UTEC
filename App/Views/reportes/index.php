@@ -11,6 +11,9 @@
 <body>
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
+    <div class=" text-center mb-3">
+                        <h3>Reportes</h3>
+                    </div>
     <div class="container d-flex justify-content-center align-items-center">
         <form id="reporteForm" method="POST" target="_blank" class="w-100">
             <div class="row">

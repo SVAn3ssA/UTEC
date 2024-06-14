@@ -18,7 +18,7 @@
                 <form class="" action="" method="post" id="frmUsuarios">
 
                     <div class=" text-center mb-3">
-                        <h2>Agregar Usuario</h2>
+                        <h2>Agregar usuario</h2>
                     </div>
                     <div class="row mb-3">
                         <div class="col">

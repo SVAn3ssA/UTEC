@@ -11,6 +11,9 @@
 <body>
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
+    <div class=" text-center mb-3">
+        <h3>Laboratorios</h3>
+    </div>
 
     <?php if ($_SESSION['privilegio'] == 1): ?>
         <button type="button" class="btn btn-primary btnnuevo" id="frmLaboratorio" onclick="frmLab();">Nuevo</button>
@@ -46,7 +49,8 @@
                         <div class="form-group mb-4">
                             <label for="estado">Estado:</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" id="estado1" name="estado" value="1" checked>
+                                <input class="form-check-input" type="radio" id="estado1" name="estado" value="1"
+                                    checked>
                                 <label class="form-check-label" for="estado1">
                                     Activo
                                 </label>
@@ -62,8 +66,10 @@
                 </div>
                 <?php if ($_SESSION['privilegio'] == 1): ?>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)" id="btnAccionGuardar">Guardar</button>
-                        <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)" id="btnAccionModificar">Modificar</button>
+                        <button type="submit" class="btn btn-primary" onclick="registrarLaboratorio(event)"
+                            id="btnAccionGuardar">Guardar</button>
+                        <button type="submit" class="btn btn-primary" onclick="modifirLaboratorio(event)"
+                            id="btnAccionModificar">Modificar</button>
                     </div>
                 <?php endif; ?>
             </div>
