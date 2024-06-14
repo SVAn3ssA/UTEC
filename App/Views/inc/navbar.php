@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg navbar-dark menu fixed-top">
     <div class="container-fluid">
         <img src="<?php echo APP_URL; ?>/app/images/UTEClogo.png" alt="Inicio" width="50" height="50" class="d-inline-block align-top" loading="lazy">
@@ -8,21 +9,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <?php if ($_SESSION['privilegio'] == 1) : ?>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a>
+                        <a class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'agregarusuario') !== false) ? 'active' : ''; ?>" href="<?php echo APP_URL; ?>agregarusuario">Agregar Usuario</a>
                     </li>
-
-                    <li>
-                        <a class="nav-link" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'listausuarios') !== false) ? 'active' : ''; ?>" href="<?php echo APP_URL; ?>listausuarios">Lista de usuarios</a>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
+                    <a class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'laboratorios') !== false) ? 'active' : ''; ?>" href="<?php echo APP_URL; ?>laboratorios">Laboratorios</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo APP_URL; ?>reportes">Reportes</a>
+                    <a class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'reportes') !== false) ? 'active' : ''; ?>" href="<?php echo APP_URL; ?>reportes">Reportes</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -35,7 +33,6 @@
                     </ul>
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>

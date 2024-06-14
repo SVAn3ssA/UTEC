@@ -30,8 +30,15 @@ html {
     color: #fff;
 }
 
+.navbar-nav .nav-link.active {
+    color: #fff; /* Color dorado para el texto activo */
+    background-color: #c1004f; /* Color de fondo más oscuro cuando activo */
+    border-radius: 15px; /* Bordes redondeados, opcional */
+    padding: 0.5rem 1rem; /* Ajustar el padding para que el fondo ocupe el mismo ancho */
+}
+
 .menu {
-    background-color: #AD103C;
+    background-color: #8c0f39;
 }
 
 .navbar-nav .nav-link {
