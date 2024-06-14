@@ -54,7 +54,7 @@ class ListaUsuarios extends controller
         // Validar campos del lado del servidor
         $mensajeError = $this->validarCampos();
         if (!empty($mensajeError)) {
-            echo json_encode($mensajeError);
+            echo json_encode(['error' => $mensajeError]);
             die();
         }
 
@@ -79,17 +79,23 @@ class ListaUsuarios extends controller
         if ($resultados) {
             // Actualizar la variable de sesión con el número de laboratorio y número de PCs
             $_SESSION['no_laboratorio'] = $no_laboratorio;
-            $_SESSION['no_pc'] = $no_pc;
+            $_SESSION['num_pcs'] = $no_pc;
 
-            // Redirigir o devolver el mensaje de éxito según sea necesario
-            $mensaje = "MODIFICADO";
+            // Devolver datos actualizados en formato JSON
+            $respuesta = [
+                'mensaje' => 'MODIFICADO',
+                'num_pcs' => $no_pc
+            ];
         } else {
-            $mensaje = "El correo electrónico ya está en uso por otro usuario";
+            $respuesta = [
+                'mensaje' => 'El correo electrónico ya está en uso por otro usuario'
+            ];
         }
 
-        echo json_encode($mensaje);
+        echo json_encode($respuesta);
         die();
     }
+
 
     private function validarCampos()
     {
