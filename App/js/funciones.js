@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         columns: [
             { data: "id_registro", searchable: false, className: "text-center" },
             { data: "carnet", searchable: true, className: "text-center" },
-            { data: "no_pc", searchable: false, className: "text-center" },
+            { data: "no_pc", searchable: true, className: "text-center" },
             { data: "observacion", searchable: false, className: "text-center" },
             { data: "acciones", className: "text-center" }
         ],
@@ -69,11 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         columns: [
             { data: "carnet", searchable: true, className: "text-center" },
-            { data: "fechahora", searchable: true, className: "text-center" },
-            { data: "tiempo", searchable: true, className: "text-center" },
+            { data: "fechahora", searchable: false, className: "text-center" },
+            { data: "tiempo", searchable: false, className: "text-center" },
             { data: "observacion", searchable: false, className: "text-center" },
-            { data: "no_laboratorio", searchable: false, className: "text-center" },
-            { data: "no_pc", searchable: false, className: "text-center" },
+            { data: "no_laboratorio", searchable: true, className: "text-center" },
+            { data: "no_pc", searchable: true, className: "text-center" },
         ],
         columnDefs: [{
             targets: [0, 1, 2, 3, 4, 5], orderable: false

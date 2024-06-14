@@ -114,15 +114,21 @@ class ListaUsuariosModel extends conexion
     {
         try {
             // Consulta SQL para obtener el número de PCs en el laboratorio dado
-            $consulta = "SELECT no_pc from laboratorios where no_laboratorio = :no_laboratorio";
+            $consulta = "SELECT no_pc FROM laboratorios WHERE no_laboratorio = :no_laboratorio";
             $stmt = $this->con->prepare($consulta);
             $stmt->bindParam(":no_laboratorio", $no_laboratorio, PDO::PARAM_INT);
             $stmt->execute();
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return $resultado['no_pc'];
+            // Verificar si se encontró el laboratorio
+            if ($resultado) {
+                return $resultado['no_pc'];
+            } else {
+                return 0; // O cualquier otro valor predeterminado adecuado
+            }
         } catch (PDOException $e) {
             echo "Error de base de datos: " . $e->getMessage();
+            return 0; // O cualquier otro valor predeterminado adecuado
         }
     }
 }

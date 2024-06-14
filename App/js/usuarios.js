@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
             { data: "nombres", searchable: true},
             { data: "apellidos", searchable: true},
             { data: "email", searchable: true},
-            { data: "telefono", searchable: true, className: "text-center" },
+            { data: "telefono", searchable: false, className: "text-center" },
             { data: "estado", searchable: true, className: "text-center" },
-            { data: "privilegio", searchable: true, className: "text-center" },
+            { data: "privilegio", searchable: false, className: "text-center" },
             { data: "no_laboratorio", searchable: false, className: "text-center" },
             { data: "acciones",  className: "text-center" }
         ],

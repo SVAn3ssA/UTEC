@@ -532,7 +532,7 @@ class reportes extends controller
                     'Número de Laboratorio', 'Total de Registros'
                 ];
 
-                $columnIndex = 'A';
+                $columnIndex = 'B';
                 $rowIndex = 10;
                 foreach ($columns as $column) {
                     $sheet->setCellValue($columnIndex . $rowIndex, $column);
@@ -546,7 +546,7 @@ class reportes extends controller
                 // Añadir los datos
                 $rowIndex = 11;
                 foreach ($resultado as $row) {
-                    $columnIndex = 'A';
+                    $columnIndex = 'B';
                     // Saltar la primera columna de contador y ajustar el bucle para que empiece desde el índice correcto
                     foreach ($row as $cell) {
                         $sheet->setCellValue($columnIndex . $rowIndex, $cell);

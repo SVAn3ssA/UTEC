@@ -101,7 +101,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Laboratorio:</label>
                                     <select class="form-select" id="laboratorio_usuario" name="laboratorio_usuario" required>
-                                        <option value="" selected>Seleccione...</option>
+                                        <option value="0" selected>Seleccione...</option>
                                         <?php foreach ($datos['laboratorio'] as $row) { ?>
                                             <option><?php echo $row['no_laboratorio']; ?></option>
                                         <?php } ?>

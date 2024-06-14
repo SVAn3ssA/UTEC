@@ -50,7 +50,8 @@ class ListaUsuarios extends controller
     }
 
     public function modificarUsuarios()
-    {
+{
+    try {
         // Validar campos del lado del servidor
         $mensajeError = $this->validarCampos();
         if (!empty($mensajeError)) {
@@ -93,8 +94,12 @@ class ListaUsuarios extends controller
         }
 
         echo json_encode($respuesta);
-        die();
+    } catch (Exception $e) {
+        echo json_encode(['error' => 'Error inesperado: ' . $e->getMessage()]);
     }
+    die();
+}
+
 
 
     private function validarCampos()
