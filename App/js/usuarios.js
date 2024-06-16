@@ -85,7 +85,6 @@ function btnSeleccionarUsuario(id) {
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             const res = JSON.parse(this.responseText);
             const usuario = res[0];
             document.getElementById("id").value = usuario.id_usuario;
@@ -139,23 +138,26 @@ function modificarUsuario(e) {
                 // Actualizar el número de computadoras en la UI
                 const num_pcs = respuesta.num_pcs;
                 const computadorasDiv = document.getElementById("computadoras");
-                computadorasDiv.innerHTML = ""; // Limpiar contenido actual
-                for (let i = 1; i <= num_pcs; i++) {
-                    const computadoraDiv = document.createElement("div");
-                    computadoraDiv.classList.add("computadora");
-                    computadoraDiv.setAttribute("data-pc", i);
+                
+                if (computadorasDiv) {
+                    computadorasDiv.innerHTML = ""; // Limpiar contenido actual si existe el elemento
+                    for (let i = 1; i <= num_pcs; i++) {
+                        const computadoraDiv = document.createElement("div");
+                        computadoraDiv.classList.add("computadora");
+                        computadoraDiv.setAttribute("data-pc", i);
 
-                    const etiquetaDiv = document.createElement("div");
-                    etiquetaDiv.classList.add("etiqueta");
-                    etiquetaDiv.textContent = "PC " + i;
+                        const etiquetaDiv = document.createElement("div");
+                        etiquetaDiv.classList.add("etiqueta");
+                        etiquetaDiv.textContent = "PC " + i;
 
-                    const cuadroDiv = document.createElement("div");
-                    cuadroDiv.classList.add("cuadro");
+                        const cuadroDiv = document.createElement("div");
+                        cuadroDiv.classList.add("cuadro");
 
-                    computadoraDiv.appendChild(etiquetaDiv);
-                    computadoraDiv.appendChild(cuadroDiv);
-                    computadorasDiv.appendChild(computadoraDiv);
-                }
+                        computadoraDiv.appendChild(etiquetaDiv);
+                        computadoraDiv.appendChild(cuadroDiv);
+                        computadorasDiv.appendChild(computadoraDiv);
+                    }
+                } 
             } else {
                 Swal.fire({
                     position: "top-end",
@@ -168,6 +170,7 @@ function modificarUsuario(e) {
         }
     };
 }
+
 
 
 

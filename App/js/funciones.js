@@ -1,4 +1,6 @@
 let registrosFinalizados = [];
+let tblRegistro
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // Cargar la tabla y los cuadros de las computadoras
@@ -60,73 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-document.addEventListener("DOMContentLoaded", function () {
-    $('#historial').DataTable({
-        responsive: true,
-        ajax: {
-            url: APP_URL + "reportes/historial",
-            dataSrc: ''
-        },
-        columns: [
-            { data: "carnet", searchable: true, className: "text-center" },
-            { data: "fechahora", searchable: false, className: "text-center" },
-            { data: "tiempo", searchable: false, className: "text-center" },
-            { data: "observacion", searchable: false, className: "text-center" },
-            { data: "no_laboratorio", searchable: true, className: "text-center" },
-            { data: "no_pc", searchable: true, className: "text-center" },
-        ],
-        columnDefs: [{
-            targets: [0, 1, 2, 3, 4, 5], orderable: false
-        }],
-        language: {
-            decimal: "",
-            emptyTable: "No hay datos disponibles en la tabla",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-            infoEmpty: "Mostrando 0 a 0 de 0 registros",
-            infoFiltered: "(filtrado de _MAX_ registros totales)",
-            infoPostFix: "",
-            thousands: ",",
-            lengthMenu: "Mostrar _MENU_ registros",
-            loadingRecords: "Cargando...",
-            processing: "Procesando...",
-            search: "Buscar:",
-            zeroRecords: "No se encontraron registros coincidentes",
-            aria: {
-                sortAscending: ": activar para ordenar la columna ascendente",
-                sortDescending: ": activar para ordenar la columna descendente"
-            }
-        },
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-            "<'row mt-3'<'col-sm-12'tr>>" + // Agregamos una clase de margen top (mt-3)
-            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-
-        buttons: [{
-            text: '<button id="pdfButton" class="btn btn-danger"><i class="fa fa-file-pdf"></i></button>',
-            action: function () {
-                // Obtener el formulario por su ID
-                var form = document.getElementById('reporteForm');
-                // Cambiar la acción del formulario a generar PDF
-                form.action = APP_URL + "reportes/generarPdf";
-                // Enviar el formulario
-                form.submit();
-            }
-        },
-        {
-            text: '<button id="excelButton" class="btn btn-success"><i class="fa fa-file-excel"></i></button>',
-            action: function () {
-                // Obtener el formulario por su ID
-                var form = document.getElementById('reporteForm');
-                // Cambiar la acción del formulario a generar Excel
-                form.action = APP_URL + "reportes/generarXls";
-                // Enviar el formulario
-                form.submit();
-            }
-        }
-        ]
-    });
-});
-
-
 
 function frmLogin(e) {
     e.preventDefault();
@@ -186,19 +121,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     buscar(searchTerm);
                 }
             });
-        } else {
-            console.log('El formulario de búsqueda no fue encontrado en esta página');
         }
 
         // Agregar event listener para el botón de limpiar búsqueda
         var limpiarBusquedaBtn = document.getElementById('cancelarBusqueda');
         if (limpiarBusquedaBtn) {
             limpiarBusquedaBtn.addEventListener('click', limpiarBusqueda);
-        } else {
-            console.log('El botón de cancelar búsqueda no fue encontrado en esta página');
         }
-
-        // Resto del código de event listeners...
     }
 
     // Llamar a la función para agregar event listeners

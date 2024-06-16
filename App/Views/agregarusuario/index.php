@@ -33,12 +33,12 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label class="form-label">Email:</label>
-                            <input type="email" class="form-control" id="email_usuario" name="email_usuario">
+                            <input type="email" class="form-control" id="email_usuario" name="email_usuario" autocomplete="current-password">
                         </div>
                         <div class="col">
                             <label class="form-label">Contraseña:</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+                                <input type="password" class="form-control" id="passwordInput" name="passwordInput" autocomplete="current-password">
                                 <button class="btn btn-outline-secondary" type="button" id="togglePassword" onclick="togglePasswordVisibility('passwordInput', 'eyeIcon')">
                                     <i class="fas fa-eye-slash" id="eyeIcon"></i>
                                 </button>
