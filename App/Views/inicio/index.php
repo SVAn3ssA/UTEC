@@ -83,9 +83,9 @@
         </div>
 
         <div class="espacio2">
-            <div class="table-responsive">
-                <table id="registrosTable" class="table display nowrap table-bordered" style="width:100%">
-                    <thead id="tbRegistroTiempo">
+            <div class="table-responsive mt-4 mx-auto">
+                <table id="registrosTable" class="display nowrap table-bordered" style="width:100%">
+                    <thead class="tbRegistroTiempo">
                         <tr>
                             <th>ID Registro</th>
                             <th>Carnet</th>
