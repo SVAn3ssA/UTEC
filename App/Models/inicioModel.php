@@ -13,14 +13,14 @@ class inicioModel extends conexion
     public function getUsuario(string $email, string $password)
     {
         // Llamar al procedimiento almacenado SP_ValidarUsuario
-        $sql = "CALL SP_ValidarUsuario(:email, :password)";
+        $sql = "CALL SP_ValidarUsuario(?,?)";
 
         // Preparar la consulta
         $stmt = $this->con->prepare($sql);
 
         // Vincular parámetros
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->bindParam(2, $password, PDO::PARAM_STR);
 
         // Ejecutar la consulta
         $stmt->execute();
