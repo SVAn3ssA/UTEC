@@ -12,8 +12,8 @@
     <?php require_once "./App/Views/inc/navbar.php"; ?>
     <div class="contenido d-flex justify-content-center"></div>
     <div class=" text-center mb-3">
-                        <h3>Reportes</h3>
-                    </div>
+        <h3>Reportes</h3>
+    </div>
     <div class="container d-flex justify-content-center align-items-center">
         <form id="reporteForm" method="POST" target="_blank" class="w-100">
             <div class="row">
@@ -26,7 +26,7 @@
                             <option value="ciclo">Ciclo</option>
                             <option value="dia">Día</option>
                             <?php if ($_SESSION['privilegio'] == 1): ?>
-                            <option value="general">General</option>
+                                <option value="general">General</option>
                             <?php endif; ?>
                         </select>
                     </div>
@@ -36,7 +36,8 @@
                         <div id="lista_general" style="display: none;">
                             <div class="form-group">
                                 <label for="otra_lista">Por:</label>
-                                <select name="otra_lista" id="otra_lista" class="form-control" onchange="toggleOtraLista()">
+                                <select name="otra_lista" id="otra_lista" class="form-control"
+                                    onchange="toggleOtraLista()">
                                     <option value="rango">Rango de Fechas</option>
                                     <option value="anio">Año</option>
                                     <option value="ciclo">Ciclo</option>
@@ -49,12 +50,15 @@
 
                     <div class="form-group" id="numero_laboratorio_group">
                         <label for="numero_laboratorio">Número de Laboratorio</label>
-                        <?php if ($_SESSION['privilegio'] == 1) : ?>
+                        <?php if ($_SESSION['privilegio'] == 1): ?>
                             <!-- Si el usuario tiene privilegio 1, se muestra un input editable -->
-                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
-                        <?php else : ?>
+                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control"
+                                value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+                        <?php else: ?>
                             <!-- Si el usuario no tiene privilegio 1, se muestra un input de solo lectura -->
-                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>" readonly>
+                            <input type="number" name="numero_laboratorio" id="numero_laboratorio" class="form-control"
+                                value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>"
+                                readonly>
                         <?php endif; ?>
                     </div>
 

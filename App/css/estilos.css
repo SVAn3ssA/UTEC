@@ -152,7 +152,9 @@ html {
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Ajusta el número de columnas automáticamente */
     gap: 10px;
     width: 100%;
-    padding: 0 10px; /* Ajusta el padding para espaciar las computadoras */
+    padding: 20px 0; /* Ajusta el padding vertical para espaciar las computadoras */
+    justify-content: start; /* Alinea el contenido al inicio del contenedor */
+    align-content: start; /* Alinea el contenido de las filas al inicio */
 }
 
 .computadora {
@@ -160,12 +162,13 @@ html {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 5px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f9f9f9;
     font-size: 0.8rem;
 }
+
 
 @media (max-width: 1200px) {
     .computadoras {
@@ -232,18 +235,31 @@ footer {
 }
 
 .form-groupset {
-  display: flex;
-  flex-direction: column;  /* Arrange forms vertically */
-  margin-bottom: 1rem;  /* Maintain spacing after the group */
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 15px;
-  align-items: center;  /* Center content horizontally */
-  box-sizing: border-box; /* Include padding and border in width */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 15px;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .form-groupset form {
   margin-bottom: 0;  /* No margin between forms */
 }
 
-  
+.table-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+    text-align: center; /* Centra horizontalmente el contenido dentro del contenedor */
+    padding-left: 40px; /* Ajusta el espacio a la izquierda según tu preferencia */
+    padding-right: 20px; /* Ajusta el espacio a la derecha según tu preferencia */
+}
+
+
+
+
+
+
