@@ -27,8 +27,12 @@
                         <form id="buscarForm" class="formulario">
                             <div class="form-group">
                                 <label class="form-label">Carnet</label>
+<<<<<<< Updated upstream
                                 <input class="form-control" type="text" style="width: 200px;" id="carnet" name="carnet"
                                     pattern="[0-9]*" title="Por favor, ingrese solo números" required>
+=======
+                                <input class="form-control" type="text" style="width: 200px;" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
+>>>>>>> Stashed changes
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Buscar">
@@ -37,12 +41,19 @@
                         </form>
 
                         <form method="post" id="frmdatosprestamo" class="formulario" onsubmit="registrarTiempo(event)">
+<<<<<<< Updated upstream
                             <input type="hidden" id="noLaboratorioSession"
                                 value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
                             <div class="form-group">
                                 <label class="form-label">No. PC</label>
                                 <input type="text" class="form-control" id="noPc" name="noPc" style="width: 200px;"
                                     required>
+=======
+                            <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
+                            <div class="form-group">
+                                <label class="form-label">No. PC</label>
+                                <input type="text" class="form-control" id="noPc" name="noPc" style="width: 200px;" required>
+>>>>>>> Stashed changes
                             </div>
                             <div class="form-group">
                                 <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>

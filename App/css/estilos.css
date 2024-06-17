@@ -1,7 +1,7 @@
 :root {
     --color-uno: #5D0A28;
     --color-dos: #D8D8D8;
-    --color-tres: #F5F5F5 
+    --color-tres: #F5F5F5
 }
 
 body,
@@ -31,10 +31,14 @@ html {
 }
 
 .navbar-nav .nav-link.active {
-    color: #fff; /* Color dorado para el texto activo */
-    background-color: #c1004f; /* Color de fondo más oscuro cuando activo */
-    border-radius: 15px; /* Bordes redondeados, opcional */
-    padding: 0.5rem 1rem; /* Ajustar el padding para que el fondo ocupe el mismo ancho */
+    color: #fff;
+    /* Color dorado para el texto activo */
+    background-color: #c1004f;
+    /* Color de fondo más oscuro cuando activo */
+    border-radius: 15px;
+    /* Bordes redondeados, opcional */
+    padding: 0.5rem 1rem;
+    /* Ajustar el padding para que el fondo ocupe el mismo ancho */
 }
 
 .menu {
@@ -90,7 +94,7 @@ html {
     text-align: center;
 }
 
-.tbListaUsuarios{
+.tbListaUsuarios {
     background-color: #8c0f39;
     color: #F5F5F5;
 }
@@ -101,15 +105,25 @@ html {
     width: 200px
 }
 
-.tbTablaLaboratorios{
+.tbTablaLaboratorios {
     background-color: #8c0f39;
     color: #F5F5F5;
 }
 
 /*----------Pagina Reportes----------*/
-.tbReportes{
+.tbReportes {
     background-color: #8c0f39;
     color: #F5F5F5;
+}
+
+.reporte {
+    margin: 20px;
+    /* Margen alrededor de la tarjeta */
+    padding: 20px;
+    /* Espaciado interno de la tarjeta */
+    border-radius: 0;
+    /* Bordes redondeados para la tarjeta */
+    background-color: #f8f9fa;
 }
 
 /*----------Pagina Inicio----------*/
@@ -118,7 +132,7 @@ html {
     flex-wrap: wrap;
 }
 
-.tbRegistroTiempo{
+.tbRegistroTiempo {
     background-color: #8c0f39;
     color: #F5F5F5;
 }
@@ -133,7 +147,8 @@ html {
 
 .form-container {
     display: flex;
-    flex-direction: column; /* Mantiene los formularios en línea vertical */
+    flex-direction: column;
+    /* Mantiene los formularios en línea vertical */
     gap: 10px;
     flex: 1;
     margin: 10px;
@@ -142,19 +157,27 @@ html {
 .right-column {
     flex: 1;
     padding: 20px;
-    width: 100%; /* Ajusta el ancho según sea necesario */
+    width: 100%;
+    /* Ajusta el ancho según sea necesario */
     display: flex;
-    justify-content: center; /* Centra las computadoras horizontalmente */
+    justify-content: center;
+    /* Centra las computadoras horizontalmente */
 }
 
 .computadoras {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Ajusta el número de columnas automáticamente */
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    /* Ajusta el número de columnas automáticamente */
     gap: 10px;
     width: 100%;
+<<<<<<< Updated upstream
     padding: 20px 0; /* Ajusta el padding vertical para espaciar las computadoras */
     justify-content: start; /* Alinea el contenido al inicio del contenedor */
     align-content: start; /* Alinea el contenido de las filas al inicio */
+=======
+    padding: 0 10px;
+    /* Ajusta el padding para espaciar las computadoras */
+>>>>>>> Stashed changes
 }
 
 .computadora {
@@ -181,14 +204,15 @@ html {
         grid-template-columns: repeat(auto-fill, minmax(5, 1fr));
         gap: 5px;
     }
-    
+
     .computadora {
         padding: 3px;
         font-size: 0.7rem;
     }
 
     .left-column {
-        max-width: 100%; /* Los formularios ocupan todo el ancho en pantallas pequeñas */
+        max-width: 100%;
+        /* Los formularios ocupan todo el ancho en pantallas pequeñas */
     }
 }
 
@@ -219,11 +243,13 @@ html {
 }
 
 .formulario {
-    margin-bottom: 20px; /* Margen inferior para separar los formularios */
+    margin-bottom: 20px;
+    /* Margen inferior para separar los formularios */
 }
 
 .formulario .form-group {
-    margin-bottom: 15px; /* Margen inferior para separar los elementos dentro del formulario */
+    margin-bottom: 15px;
+    /* Margen inferior para separar los elementos dentro del formulario */
 }
 
 footer {
@@ -246,6 +272,7 @@ footer {
 }
 
 .form-groupset form {
+<<<<<<< Updated upstream
   margin-bottom: 0;  /* No margin between forms */
 }
 
@@ -263,3 +290,7 @@ footer {
 
 
 
+=======
+    margin-bottom: 0;
+}
+>>>>>>> Stashed changes
