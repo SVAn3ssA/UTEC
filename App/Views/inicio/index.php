@@ -85,7 +85,7 @@
         <div class="espacio2">
             <div class="table-responsive">
                 <table id="registrosTable" class="table display nowrap table-bordered" style="width:100%">
-                    <thead>
+                    <thead id="tbRegistroTiempo">
                         <tr>
                             <th>ID Registro</th>
                             <th>Carnet</th>

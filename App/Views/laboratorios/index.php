@@ -77,8 +77,8 @@
     </div>
 
     <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
-        <table id="listaLaboratorios" class="display nowrap" style="width:100%">
-            <thead>
+        <table id="listaLaboratorios" class="display nowrap table-bordered" style="width:100%">
+            <thead class="tbTablaLaboratorios">
                 <tr>
                     <th>No. Laboratorio</th>
                     <th>No. Pc</th>

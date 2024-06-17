@@ -110,7 +110,7 @@
         <div class="card-body">
             <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
                 <table id="historial" class="display nowrap table-bordered" style="width:100%">
-                    <thead>
+                    <thead class="tbReportes">
                         <tr>
                             <th>Carnet</th>
                             <th>Fecha y Hora</th>

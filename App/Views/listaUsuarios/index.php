@@ -17,8 +17,8 @@
     </div>
     
     <div class="table-responsive mt-4 mx-auto" style="max-width: 90%;">
-        <table id="lista" class="display nowrap" style="width:100%">
-            <thead>
+        <table id="lista" class="display nowrap table-bordered" style="width:100%">
+            <thead class="tbListaUsuarios">
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>

@@ -1,7 +1,7 @@
 :root {
     --color-uno: #5D0A28;
     --color-dos: #D8D8D8;
-    --color-tres: #F5F5F5 --color-cuatro:#DA4453, #89216B;
+    --color-tres: #F5F5F5 
 }
 
 body,
@@ -90,16 +90,37 @@ html {
     text-align: center;
 }
 
+.tbListaUsuarios{
+    background-color: #8c0f39;
+    color: #F5F5F5;
+}
+
 /*----------Pagina Laboratorios----------*/
 .btnnuevo {
     margin-left: 100px;
     width: 200px
 }
 
+.tbTablaLaboratorios{
+    background-color: #8c0f39;
+    color: #F5F5F5;
+}
+
+/*----------Pagina Reportes----------*/
+.tbReportes{
+    background-color: #8c0f39;
+    color: #F5F5F5;
+}
+
 /*----------Pagina Inicio----------*/
 .contenedor {
     display: flex;
     flex-wrap: wrap;
+}
+
+.tbRegistroTiempo{
+    background-color: #8c0f39;
+    color: #F5F5F5;
 }
 
 .left-column {
