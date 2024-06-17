@@ -209,3 +209,20 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.form-groupset {
+  display: flex;
+  flex-direction: column;  /* Arrange forms vertically */
+  margin-bottom: 1rem;  /* Maintain spacing after the group */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 15px;
+  align-items: center;  /* Center content horizontally */
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.form-groupset form {
+  margin-bottom: 0;  /* No margin between forms */
+}
+
+  
