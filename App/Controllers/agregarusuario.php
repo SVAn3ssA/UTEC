@@ -70,21 +70,20 @@ class AgregarUsuario extends controller
             empty($nombres) || empty($apellidos) || empty($email) || empty($password) || empty($telefono) ||
             empty($estado) || empty($id_privilegio)
         ) {
-
             return "Todos los campos son obligatorios";
         }
 
         if (!preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', $nombres) || !preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', $apellidos)) {
-
             return "Los nombres y apellidos solo pueden contener letras y espacios";
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return "El formato del email es incorrecto";
+        // Validar que el email termine en @mail.utec.edu.sv
+        $domain = 'mail.utec.edu.sv';
+        if (substr($email, -strlen($domain)) !== $domain) {
+            return "El correo electrónico debe ser institucional";
         }
 
         if (!preg_match('/^\d{8}$/', $telefono)) {
-
             return "El formato del teléfono es incorrecto. Debe ser un número de 8 dígitos";
         }
 
