@@ -170,14 +170,11 @@ html {
     /* Ajusta el número de columnas automáticamente */
     gap: 10px;
     width: 100%;
-<<<<<<< Updated upstream
     padding: 20px 0; /* Ajusta el padding vertical para espaciar las computadoras */
     justify-content: start; /* Alinea el contenido al inicio del contenedor */
     align-content: start; /* Alinea el contenido de las filas al inicio */
-=======
     padding: 0 10px;
     /* Ajusta el padding para espaciar las computadoras */
->>>>>>> Stashed changes
 }
 
 .computadora {
@@ -272,7 +269,6 @@ footer {
 }
 
 .form-groupset form {
-<<<<<<< Updated upstream
   margin-bottom: 0;  /* No margin between forms */
 }
 
@@ -284,13 +280,3 @@ footer {
     padding-left: 40px; /* Ajusta el espacio a la izquierda según tu preferencia */
     padding-right: 20px; /* Ajusta el espacio a la derecha según tu preferencia */
 }
-
-
-
-
-
-
-=======
-    margin-bottom: 0;
-}
->>>>>>> Stashed changes

@@ -16,8 +16,8 @@
                 <img src="App/images/Temaletras.png" alt="Temas Letras" style="width: 65%;">
                 </div>';
     } else {
-        ?>
-        <?php if ($_SESSION['privilegio'] == 1 || $_SESSION['no_laboratorio'] != 0): ?>
+    ?>
+        <?php if ($_SESSION['privilegio'] == 1 || $_SESSION['no_laboratorio'] != 0) : ?>
             <h5 class="nombre-lab text-center">Laboratorio: <?= $_SESSION['no_laboratorio']; ?></h5>
         <?php endif; ?>
         <div class="contenedor">
@@ -27,12 +27,7 @@
                         <form id="buscarForm" class="formulario">
                             <div class="form-group">
                                 <label class="form-label">Carnet</label>
-<<<<<<< Updated upstream
-                                <input class="form-control" type="text" style="width: 200px;" id="carnet" name="carnet"
-                                    pattern="[0-9]*" title="Por favor, ingrese solo números" required>
-=======
                                 <input class="form-control" type="text" style="width: 200px;" id="carnet" name="carnet" pattern="[0-9]*" title="Por favor, ingrese solo números" required>
->>>>>>> Stashed changes
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-primary" value="Buscar">
@@ -41,19 +36,10 @@
                         </form>
 
                         <form method="post" id="frmdatosprestamo" class="formulario" onsubmit="registrarTiempo(event)">
-<<<<<<< Updated upstream
-                            <input type="hidden" id="noLaboratorioSession"
-                                value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
-                            <div class="form-group">
-                                <label class="form-label">No. PC</label>
-                                <input type="text" class="form-control" id="noPc" name="noPc" style="width: 200px;"
-                                    required>
-=======
                             <input type="hidden" id="noLaboratorioSession" value="<?php echo isset($_SESSION['no_laboratorio']) ? $_SESSION['no_laboratorio'] : ''; ?>">
                             <div class="form-group">
                                 <label class="form-label">No. PC</label>
                                 <input type="text" class="form-control" id="noPc" name="noPc" style="width: 200px;" required>
->>>>>>> Stashed changes
                             </div>
                             <div class="form-group">
                                 <button id="btnPrestar" class="btn btn-success" type="submit">Prestar</button>
@@ -67,8 +53,8 @@
                 <div class="computadoras" id="computadoras">
                     <?php
                     $num_pcs = isset($_SESSION['num_pcs']) ? $_SESSION['num_pcs'] : 0;
-                    for ($i = 1; $i <= $num_pcs; $i++):
-                        ?>
+                    for ($i = 1; $i <= $num_pcs; $i++) :
+                    ?>
                         <div class="computadora" data-pc="<?= $i ?>">
                             <div class="etiqueta">PC <?= $i ?></div>
                             <div class="cuadro"></div>
@@ -78,29 +64,28 @@
             </div>
         </div>
         <div class="table-container d-flex justify-content-center align-items-center">
-    <table class="table table-striped table-bordered text-center" id="resultsTable" style="display: none;">
-        <thead class="thead-dark">
-            <tr>
-                <th>Carnet</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Carrera</th>
-                <th>Facultad</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody id="resultsBody">
-            <!-- Aquí irán los datos de la tabla -->
-        </tbody>
-    </table>
-</div>
-
+            <table class="table table-striped table-bordered text-center" id="resultsTable" style="display: none;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Carnet</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Carrera</th>
+                        <th>Facultad</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- Aquí irán los datos de la tabla -->
+                </tbody>
+            </table>
+        </div>
 
         <div class="espacio2">
-            <div class="table-responsive">
-                <table id="registrosTable" class="table display nowrap table-bordered" style="width:100%">
-                    <thead>
+            <div class="table-responsive mt-4 mx-auto">
+                <table id="registrosTable" class="display nowrap table-bordered" style="width:100%">
+                    <thead class="tbRegistroTiempo">
                         <tr>
                             <th>ID Registro</th>
                             <th>Carnet</th>
@@ -115,7 +100,7 @@
                 </table>
             </div>
         </div>
-        <?php
+    <?php
     }
     ?>
 
